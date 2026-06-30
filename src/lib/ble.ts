@@ -23,6 +23,7 @@ async function checkBLE() {
 
   try {
     const available = await ble.getAvailability();
+    console.log(available);
     return available;
   } catch (err) {
     console.error(err);
