@@ -3,11 +3,11 @@ import { type IconType } from "react-icons"
 
 // Basic unique identifier stuff
 export type UID = string | number;
-export type Window = UID;
-export type Widget = UID;
+export type WindowID = UID;
+export type WidgetID = UID;
 
 /* Mapping widgets to their data */
-export type WidgetMap = Record<Widget, WidgetData>;
+export type WidgetMap = Record<WidgetID, WidgetData>;
 export type WidgetData = {
   icon: IconType;                // Icon used to represent widget
   displayName: string;           // String used to represent widget
@@ -15,14 +15,14 @@ export type WidgetData = {
 }
 
 /* (Mosaic) window holding rendered widget content */
-export type WindowMap = Record<Window, WindowData>;
+export type WindowMap = Record<WindowID, WindowData>;
 export type WindowData = {
-  widgets: Widget[];
-  activeWidget: Widget;
+  widgets: WidgetID[];
+  activeWidget: WidgetID;
 }
 
 /* Stores current state of react-mosaic-component */
-export type MosaicState = MosaicNode<Window>;
+export type MosaicState = MosaicNode<WindowID>;
 
 /* Store information for studio */
 export interface StudioState {

@@ -1,15 +1,9 @@
-import { DragDropProvider } from "@dnd-kit/react";
-import { Debug } from "@dnd-kit/dom/plugins/debug"
-import { useStudio } from "../StudioContext";
+import { DndProvider } from "../dnd";
 
-function Studio() {
-  const { studio } = useStudio();
-
+export function Studio() {
   return (
-    <DragDropProvider
-      manager={}
-    >
-      {/* COMPONENTS HERE */}
-    </DragDropProvider>
+    <DndProvider>
+      Hi
+    </DndProvider>
   )
 }
