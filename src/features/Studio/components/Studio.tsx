@@ -1,9 +1,9 @@
-import { DndProvider } from "../dnd";
+import { WidgetTabGroup } from "./WidgetTabGroup";
 
 export function Studio() {
   return (
-    <DndProvider>
-      Hi
-    </DndProvider>
+    <div>
+      <WidgetTabGroup />
+    </div>
   )
 }

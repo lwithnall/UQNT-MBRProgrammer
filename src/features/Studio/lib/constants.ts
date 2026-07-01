@@ -39,7 +39,7 @@ export const widgets: WidgetMap = {
 export const defaultWindows: WindowMap = {
   defaultWin1: { widgets: ["blockly"], activeWidget: "blockly" },
   defaultWin2: { widgets: ["info", "help", "code"], activeWidget: "info" },
-};
+};  
 
 /**
  * Initial mosaic layout

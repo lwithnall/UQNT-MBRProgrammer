@@ -1,13 +1,13 @@
-import { type MosaicNode } from "react-mosaic-component"
-import { type IconType } from "react-icons"
+import { type MosaicNode } from "react-mosaic-component";
+import { type IconType } from "react-icons";
+import { type UniqueIdentifier } from "@dnd-kit/abstract";
 
 // Basic unique identifier stuff
-export type UID = string | number;
-export type WindowID = UID;
-export type WidgetID = UID;
+export type WindowId = UniqueIdentifier;
+export type WidgetId = UniqueIdentifier;
 
 /* Mapping widgets to their data */
-export type WidgetMap = Record<WidgetID, WidgetData>;
+export type WidgetMap = Record<WidgetId, WidgetData>;
 export type WidgetData = {
   icon: IconType;                // Icon used to represent widget
   displayName: string;           // String used to represent widget
@@ -15,14 +15,14 @@ export type WidgetData = {
 }
 
 /* (Mosaic) window holding rendered widget content */
-export type WindowMap = Record<WindowID, WindowData>;
+export type WindowMap = Record<WindowId, WindowData>;
 export type WindowData = {
-  widgets: WidgetID[];
-  activeWidget: WidgetID;
+  widgets: WidgetId[];
+  activeWidget: WidgetId;
 }
 
 /* Stores current state of react-mosaic-component */
-export type MosaicState = MosaicNode<WindowID>;
+export type MosaicState = MosaicNode<WindowId>;
 
 /* Store information for studio */
 export interface StudioState {
