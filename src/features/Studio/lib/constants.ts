@@ -5,9 +5,8 @@ import { FaCode, FaPuzzlePiece, FaExclamation, FaHandsHelping } from "react-icon
 const placeholderWidget = React.Component;
 
 /*
- * Possible widgets to use
- * Register information here if you'd like to add a new section
- * Add actual widget content into @/components/widgets 
+ * Widget information
+ * displayName and icon are used for the tab layout
  */
 export const widgets: WidgetMap = {
   info: {
@@ -37,8 +36,8 @@ export const widgets: WidgetMap = {
  * Windows MUST have at least one widget, and an active widget selected
  */
 export const defaultWindows: WindowMap = {
-  defaultWin1: { widgets: ["blockly"], activeWidget: "blockly" },
-  defaultWin2: { widgets: ["info", "help", "code"], activeWidget: "info" },
+  win1: { widgets: ["blockly"], activeWidget: "blockly" },
+  win2: { widgets: ["info", "help", "code"], activeWidget: "info" },
 };  
 
 /**
@@ -46,9 +45,9 @@ export const defaultWindows: WindowMap = {
  * State stored in binary tree, only allows 'first' and 'second' branches
  */
 export const defaultMosaicState: MosaicState = {
-  direction: 'row',
   type: 'split',
-  children: ['defaultWin1', 'defaultWin2'],
+  direction: 'row',
+  children: ['win1', 'win2'],
 };
 
 /* Default workspace state for app */

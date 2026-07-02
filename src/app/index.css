@@ -1,2 +1,63 @@
-@import "tailwindcss";
 @import "@radix-ui/themes/styles.css";
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+  --primary: hsl(210, 17%, 98%);
+  --secondary: hsl(210, 14%, 89%);
+  --tertiary: hsl(210, 14%, 83%);
+  --collapsed-container-size: 2.25rem;
+  --selected: hsl(210, 50%, 25%);
+  --highlight-selection: hsl(200, 100%, 50%);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+    --primary: hsl(210, 11%, 15%);
+    --secondary: hsl(210, 9%, 31%);
+    --tertiary: hsl(208, 7%, 46%);
+    --selected: hsl(210, 50%, 25%);
+    --highlight-selection: hsl(200, 100%, 50%);
+  }
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-primary: var(--primary);
+  --color-secondary: var(--secondary);
+  --color-tertiary: var(--tertiary);
+  --color-selected: var(--selected);
+  --color-highlight-selection: var(--highlight-selection);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+  --spacing-collapsed: var(--collapsed-container-size);
+}
+
+@layer base {
+  * {
+    box-sizing: border-box;
+  }
+
+  html,
+  body {
+    height: 100%;
+  }
+
+  body {
+    background: var(--background);
+    color: var(--foreground);
+    font-family: Arial, Helvetica, sans-serif;
+  }
+
+  /* 
+   * Fixes issue where Blockly toolbox scrollbar doesn't hide 
+   * https://groups.google.com/g/blockly/c/LoUkpM4_MnU
+   */
+  svg[display="none"] {
+    display: none;
+  }
+}

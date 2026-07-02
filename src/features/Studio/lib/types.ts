@@ -10,7 +10,7 @@ export type WidgetId = UniqueIdentifier;
 export type WidgetMap = Record<WidgetId, WidgetData>;
 export type WidgetData = {
   icon: IconType;                // Icon used to represent widget
-  displayName: string;           // String used to represent widget
+  displayName: string | null;    // String used to represent widget
   content: React.ComponentType;  // JSX content for widget
 }
 

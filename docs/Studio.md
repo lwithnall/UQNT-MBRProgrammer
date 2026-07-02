@@ -51,4 +51,7 @@ Studio UI intended to mimic leetcode website.
 >
 </figure>
 
-## State Management
+## Window Toolbar
+Why not use the inbuilt tab functionality from the react-mosaic-component library?
+First started building this with version something-something before they were a thing. Similar with dnd-kit, first started with the legacy version then wrote this using version yaddah yaddah.
+Lwk can't be bothered to figure it out, even if the current thing is goofy.

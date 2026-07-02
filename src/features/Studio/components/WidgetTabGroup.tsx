@@ -1,14 +1,26 @@
 import { WidgetTab } from "./WidgetTab";
-import { widgets } from "../lib";
+import { type WindowId, widgets } from "../lib";
+import { useStudio } from "../state";
 
-export function WidgetTabGroup() {
-  const widgetList = ["info", "help", "code", "blockly"];
+export interface WidgetTabGroupProps {
+  windowId: WindowId;
+}
+
+
+/**
+ * WidgetTabGroup
+ * Renders ordered collection of widget tabs.
+ * Used to render widget selections for each window.
+ */
+export function WidgetTabGroup({ windowId }: WidgetTabGroupProps) {
+  const { studio } = useStudio()
+  const windowData = studio.windows[windowId];
 
   return (
     <div>
-      {widgetList.map((id, idx) => {
-        const { icon, displayName }= widgets[id];
-        return <WidgetTab id={id} index={idx} icon={icon} label={displayName} />
+      {windowData.widgets.map((widgetId, idx) => {
+        const { icon, displayName }= widgets[widgetId];
+        return <WidgetTab id={widgetId} key={widgetId} index={idx} icon={icon} label={displayName} />
       })}
     </div>
   )

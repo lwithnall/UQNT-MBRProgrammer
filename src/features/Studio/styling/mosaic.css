@@ -1,0 +1,85 @@
+.mosaic-blueprint-theme.mosaic.mosaic-drop-target {
+  background: var(--background);
+}
+
+/*
+ * react-mosaic forces inclusion of mosaic-window-title div
+ */
+.mosaic-window .mosaic-window-title {
+  justify-content: end;
+  /* display: none; */
+}
+
+.mosaic.mosaic-blueprint-theme .mosaic-window {
+  border-radius: 0.375rem;
+  overflow: hidden;
+  height: 100%;
+}
+
+.mosaic-window div {
+  height: 100%;
+}
+
+.mosaic-window .mosaic-window-toolbar {
+  height: 40px;
+  background: var(--secondary);
+  padding: var(--spacing);
+  width: full;
+  justify-content: start;
+  align-items: center;
+}
+
+.mosaic.mosaic-blueprint-theme
+  .mosaic-window
+  .mosaic-window-toolbar.draggable:hover {
+  background: var(--tertiary);
+}
+
+.mosaic.mosaic-blueprint-theme .mosaic-window .mosaic-window-body {
+  background: var(--primary);
+}
+
+.mosaic-root {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  left: 0px;
+  bottom: 0px;
+}
+
+/* Handle between mosaic panels */
+.mosaic-split {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Small rectangle inside mosaic handle (row handle) */
+.mosaic-split.-row::after {
+  content: "";
+  position: absolute;
+  background-color: var(--secondary);
+  width: 1px;
+  height: 1.25rem;
+}
+
+/* Small rectangle inside mosaic handle (col handle) */
+.mosaic-split.-column::after {
+  content: "";
+  position: absolute;
+  background-color: var(--secondary);
+  width: 1.25rem;
+  height: 1px;
+}
+
+.overlay-indicator {
+  background-color: rgba(33, 93, 176, 0.2);
+  border: 2px solid #4c90f0;
+  border-radius: 2px;
+  box-sizing: border-box;
+  pointer-events: none;
+  transition:
+    opacity 100ms,
+    transform 100ms;
+  position: absolute;
+}
