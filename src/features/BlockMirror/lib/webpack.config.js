@@ -84,7 +84,7 @@ const JS_BLOCKMIRROR_FILES = [
     path.resolve(__dirname, 'src/ast/ast_Yield.js'),
     path.resolve(__dirname, 'src/ast/ast_YieldFrom.js'),
     path.resolve(__dirname, 'src/ast/ast_Global.js'),
-    <!--src/ast/ast_Nonlocal.js-->
+    // <!--src/ast/ast_Nonlocal.js-->
     path.resolve(__dirname, 'src/ast/ast_Break.js'),
     path.resolve(__dirname, 'src/ast/ast_Continue.js'),
     path.resolve(__dirname, 'src/ast/ast_Try.js'),
