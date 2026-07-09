@@ -3,6 +3,7 @@ import { StudioWindow } from "./StudioWindow";
 import { StudioProvider } from "../state";
 import { type MosaicState, type WindowId, defaultMosaicState } from "../lib";
 import { WidgetTabGroup } from "./WidgetTabGroup";
+import { BlockEditor } from "../../BlockMirror/components/BlockEditor";
 
 import "react-mosaic-component/react-mosaic-component.css"
 import "../styling/mosaic.css"
@@ -22,7 +23,7 @@ export function Studio() {
         renderTile={(id, path) => (
           <div>
             <StudioWindow id={id} path={path} toolbarControls={<WidgetTabGroup windowId={id} />}>
-              hi
+              <BlockEditor />
             </StudioWindow>
           </div>
         )}
