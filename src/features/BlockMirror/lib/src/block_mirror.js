@@ -29,7 +29,7 @@
 /**
  *
  */
-export function BlockMirror(configuration) {
+function BlockMirror(configuration) {
     this.validateConfiguration(configuration);
     this.initializeVariables();
 
