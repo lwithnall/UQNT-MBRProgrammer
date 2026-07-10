@@ -1,3 +1,6 @@
+import * as Blockly from "blockly/core";
+import { BlockMirrorTextToBlocks } from "../text_to_blocks";
+import * as python from "blockly/python";
 Blockly.Blocks["ast_Tuple"] = {
   /**
    * Block for creating a tuple with any number of elements of any type.
@@ -199,3 +202,4 @@ BlockMirrorTextToBlocks.prototype["ast_Tuple"] = function (node, parent) {
     },
   );
 };
+

@@ -1,3 +1,6 @@
+import * as Blockly from "blockly/core";
+import { BlockMirrorTextToBlocks } from "../text_to_blocks";
+import * as python from "blockly/python";
 // TODO: Support stuff like "append" where the message is after the value input
 // TODO: Handle updating function/method definition -> update call
 // TODO: Do a pretraversal to determine if a given function returns
@@ -591,4 +594,5 @@ BlockMirrorTextToBlocks.prototype['ast_Call'] = function (node, parent) {
         return [newBlock];
     }
 };
+
 

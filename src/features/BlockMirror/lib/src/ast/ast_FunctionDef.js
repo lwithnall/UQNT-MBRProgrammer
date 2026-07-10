@@ -1,3 +1,6 @@
+import * as Blockly from "blockly/core";
+import { BlockMirrorTextToBlocks } from "../text_to_blocks";
+import * as python from "blockly/python";
 // TODO: what if a user deletes a parameter through the context menu?
 
 // The mutator container
@@ -418,3 +421,4 @@ BlockMirrorTextToBlocks.prototype['ast_FunctionDef'] = function (node, parent) {
             'BODY': this.convertBody(body, node)
         });
 };
+

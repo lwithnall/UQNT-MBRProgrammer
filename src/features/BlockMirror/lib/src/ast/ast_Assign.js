@@ -1,3 +1,9 @@
+
+import * as Blockly from "blockly/core";
+import { BlockMirrorTextToBlocks } from "../text_to_blocks";
+import * as python from "blockly/python";
+
+
 Blockly.Blocks['ast_Assign'] = {
     init: function () {
         this.setInputsInline(true);

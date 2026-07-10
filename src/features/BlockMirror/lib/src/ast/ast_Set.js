@@ -1,3 +1,6 @@
+import * as Blockly from "blockly/core";
+import { BlockMirrorTextToBlocks } from "../text_to_blocks";
+import * as python from "blockly/python";
 Blockly.Blocks["ast_Set"] = {
   /**
    * Block for creating a set with any number of elements of any type.
@@ -193,3 +196,4 @@ BlockMirrorTextToBlocks.prototype["ast_Set"] = function (node, parent) {
     },
   );
 };
+

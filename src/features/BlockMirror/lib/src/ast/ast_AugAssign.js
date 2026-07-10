@@ -1,3 +1,8 @@
+
+import * as Blockly from "blockly/core";
+import { BlockMirrorTextToBlocks } from "../text_to_blocks";
+import * as python from "blockly/python";
+
 Blockly.Blocks['ast_AugAssign'] = {
     init: function () {
         let block = this;
@@ -125,3 +130,4 @@ BlockMirrorTextToBlocks.prototype['ast_AugAssign'] = function (node, parent) {
             "@preposition": preposition
         });
 };
+

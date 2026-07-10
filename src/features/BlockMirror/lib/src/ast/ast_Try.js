@@ -1,3 +1,6 @@
+import * as Blockly from "blockly/core";
+import { BlockMirrorTextToBlocks } from "../text_to_blocks";
+import * as python from "blockly/python";
 BlockMirrorTextToBlocks.HANDLERS_CATCH_ALL = 0;
 BlockMirrorTextToBlocks.HANDLERS_NO_AS = 1;
 BlockMirrorTextToBlocks.HANDLERS_COMPLETE = 3;

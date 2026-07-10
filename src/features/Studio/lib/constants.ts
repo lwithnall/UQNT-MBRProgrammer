@@ -47,7 +47,8 @@ export const defaultWindows: WindowMap = {
 export const defaultMosaicState: MosaicState = {
   type: 'split',
   direction: 'row',
-  children: ['win1', 'win2'],
+  // children: ['win1', 'win2'],
+  children: ['win2'],
 };
 
 /* Default workspace state for app */

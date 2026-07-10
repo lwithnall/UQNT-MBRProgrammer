@@ -1,3 +1,6 @@
+import * as Blockly from "blockly/core";
+import { BlockMirrorTextToBlocks } from "../text_to_blocks";
+import * as python from "blockly/python";
 {
     let multiline_input_type = "field_multilinetext";
 
@@ -28,3 +31,4 @@ python.pythonGenerator.forBlock['ast_Raw'] = function(block, generator) {
     var code = block.getFieldValue('TEXT') + "\n";
     return code;
 };
+

@@ -1,3 +1,9 @@
+
+import * as Blockly from "blockly/core";
+import { BlockMirrorTextToBlocks } from "../text_to_blocks";
+import * as python from "blockly/python";
+
+
 BlockMirrorTextToBlocks.BINOPS = [
     ["+", "Add", python.pythonGenerator.ORDER_ADDITIVE, 'Return the sum of the two numbers.', 'increase', 'by'],
     ["-", "Sub", python.pythonGenerator.ORDER_ADDITIVE, 'Return the difference of the two numbers.', 'decrease', 'by'],
@@ -102,3 +108,4 @@ BlockMirrorTextToBlocks.prototype['ast_BinOp'] = function (node, parent) {
 
 python.pythonGenerator.forBlock['ast_BinOpFull'] = python.pythonGenerator.forBlock['ast_BinOp'];
 BlockMirrorTextToBlocks.prototype['ast_BinOpFull'] = BlockMirrorTextToBlocks.prototype['ast_BinOp'];
+

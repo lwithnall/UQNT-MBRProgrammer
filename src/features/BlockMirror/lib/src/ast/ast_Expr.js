@@ -1,3 +1,6 @@
+import * as Blockly from "blockly/core";
+import { BlockMirrorTextToBlocks } from "../text_to_blocks";
+import * as python from "blockly/python";
 BlockMirrorTextToBlocks.BLOCKS.push({
     "type": "ast_Expr",
     "message0": "do nothing with %1",
@@ -32,3 +35,4 @@ BlockMirrorTextToBlocks.prototype['ast_Expr'] = function (node, parent) {
         });
     }
 };
+

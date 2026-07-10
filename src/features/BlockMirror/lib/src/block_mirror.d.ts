@@ -1,3 +1,31 @@
+/**
+
+ External visible stuff
+
+ Changing mode/code can fail on the block side
+
+ setMode(mode) -> bool
+ setCode(filename, code) -> bool
+ setHighlight(line) -> bool
+ setReadOnly(isReadOnly)
+ setToolbox(string)
+ 'basic'
+ 'advanced'
+ 'complete'
+ list[list[string]]
+ onChange(event) ->
+ onModeChange
+ onCodeChange
+
+ getCode() -> string
+ getMode() -> string
+ getImage(callback)
+
+ lastBlockConversionFailure: {} or null
+
+
+ */
+
 import { BlockMirrorTextToBlocks } from "./text_to_blocks";
 import { BlockMirrorTextEditor } from "./text_editor";
 import { BlockMirrorBlockEditor } from "./block_editor"

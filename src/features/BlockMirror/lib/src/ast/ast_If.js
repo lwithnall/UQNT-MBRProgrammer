@@ -1,3 +1,6 @@
+import * as Blockly from "blockly/core";
+import { BlockMirrorTextToBlocks } from "../text_to_blocks";
+import * as python from "blockly/python";
 Blockly.Blocks['ast_If'] = {
     init: function () {
         this.orelse_ = 0;

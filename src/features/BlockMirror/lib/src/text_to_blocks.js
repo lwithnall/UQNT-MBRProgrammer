@@ -1,3 +1,7 @@
+import * as python from "blockly/python";
+import * as Blockly from "blockly/core";
+import { BlockMirrorTextEditor } from "./text_editor";
+
 function BlockMirrorTextToBlocks(blockMirror) {
     this.blockMirror = blockMirror;
     this.hiddenImports = ["plt"];
@@ -352,6 +356,7 @@ BlockMirrorTextToBlocks.prototype.isTopLevel = function (parent) {
 BlockMirrorTextToBlocks.prototype.convert = function (node, parent) {
     let functionName = 'ast_' + node._astname;
     if (this[functionName] === undefined) {
+        console.log(this);
         throw new Error("Could not find function: " + functionName);
     }
     node._parent = parent;
@@ -483,6 +488,7 @@ BlockMirrorTextToBlocks.raw_block = function (txt, lineno) {
 };
 
 BlockMirrorTextToBlocks.BLOCKS = [];
+console.log(BlockMirrorTextToBlocks.BLOCKS);
 
 BlockMirrorTextToBlocks.prototype['ast_Module'] = function (node) {
     return this.convertBody(node.body, node);
@@ -534,3 +540,9 @@ BlockMirrorTextToBlocks.COLOR = {
     SET: 10,
     TUPLE: 20
 };
+
+///////////////////////////////
+
+let ZERO_BLOCK = BlockMirrorTextToBlocks.create_block('ast_Num', null, {'NUM': 0});
+
+export { BlockMirrorTextToBlocks };

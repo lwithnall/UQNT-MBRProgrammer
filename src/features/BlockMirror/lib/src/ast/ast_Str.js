@@ -1,3 +1,8 @@
+import * as Blockly from "blockly/core";
+import { BlockMirrorTextToBlocks } from "../text_to_blocks";
+import * as python from "blockly/python";
+import { BlockMirrorTextEditor } from "../text_editor";
+
 BlockMirrorTextToBlocks.BLOCKS.push({
     "type": "ast_Str",
     "message0": "%1",
@@ -218,3 +223,4 @@ BlockMirrorTextToBlocks.prototype['ast_Str'] = function (node, parent) {
         return BlockMirrorTextToBlocks.create_block("ast_StrMultiline", node.lineno, {"TEXT": dedented});
     }
 };
+

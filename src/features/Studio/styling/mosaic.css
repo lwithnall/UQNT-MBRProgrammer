@@ -54,7 +54,7 @@
   justify-content: center;
 }
 
-/* Small rectangle inside mosaic handle (row handle) */
+/* Small rectangle inside mosaic hand le (row handle) */
 .mosaic-split.-row::after {
   content: "";
   position: absolute;

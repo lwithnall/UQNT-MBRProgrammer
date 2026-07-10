@@ -1,4 +1,6 @@
-function BlockMirrorTextEditor(blockMirror) {
+import CodeMirror from "../lib/codemirror/codemirror.js";
+
+export function BlockMirrorTextEditor(blockMirror) {
     this.blockMirror = blockMirror;
     this.textContainer = blockMirror.tags.textContainer;
     this.textArea = blockMirror.tags.textArea;

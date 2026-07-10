@@ -1,3 +1,6 @@
+import * as Blockly from "blockly/core";
+import { BlockMirrorTextToBlocks } from "../text_to_blocks";
+import * as python from "blockly/python";
 BlockMirrorTextToBlocks.BLOCKS.push({
   "type": "ast_For",
   "message0": "for each item %1 in list %2 : %3 %4",
@@ -72,3 +75,4 @@ BlockMirrorTextToBlocks.prototype['ast_For'] = function (node, parent) {
 
 python.pythonGenerator.forBlock['ast_ForElse'] = python.pythonGenerator.forBlock['ast_For']
 BlockMirrorTextToBlocks.prototype['ast_ForElse'] = BlockMirrorTextToBlocks.prototype['ast_For'];
+

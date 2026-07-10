@@ -1,3 +1,6 @@
+import * as Blockly from "blockly/core";
+import { BlockMirrorTextToBlocks } from "../text_to_blocks";
+import * as python from "blockly/python";
 // TODO: direct imports are not variables, because you can do stuff like:
 //         import os.path
 //       What should the variable be? Blockly will mangle it, but we should really be
@@ -154,3 +157,4 @@ BlockMirrorTextToBlocks.prototype['ast_Import'] = function (node, parent) {
 
 // Alias ImportFrom because of big overlap
 BlockMirrorTextToBlocks.prototype['ast_ImportFrom'] = BlockMirrorTextToBlocks.prototype['ast_Import'];
+

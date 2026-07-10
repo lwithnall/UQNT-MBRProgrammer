@@ -1,3 +1,7 @@
+import * as Blockly from "blockly/core";
+import { BlockMirrorTextToBlocks } from "./text_to_blocks";
+import * as python from "blockly/python";
+
 /**
  * Worth noting - Blockly uses a setTimeOut of 0 steps to make events
  * wait. That has some confusing interaction with trying to make things percolate.
@@ -5,7 +9,7 @@
  * @constructor
  */
 
-function BlockMirrorBlockEditor(blockMirror) {
+export function BlockMirrorBlockEditor(blockMirror) {
     this.blockMirror = blockMirror;
     this.blockContainer = blockMirror.tags.blockContainer;
     this.blockEditor = blockMirror.tags.blockEditor;
@@ -27,6 +31,7 @@ function BlockMirrorBlockEditor(blockMirror) {
         oneBasedIndex: false,
         readOnly: blockMirror.configuration.readOnly,
         scrollbars: true,
+        hasTrashcan: true,
         toolbox: this.makeToolbox(),
         renderer: blockMirror.configuration.renderer
     };

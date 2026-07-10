@@ -1,3 +1,8 @@
+
+import * as Blockly from "blockly/core";
+import { BlockMirrorTextToBlocks } from "../text_to_blocks";
+import * as python from "blockly/python";
+
 Blockly.Blocks['ast_AnnAssignFull'] = {
     init: function () {
         this.appendValueInput("TARGET")

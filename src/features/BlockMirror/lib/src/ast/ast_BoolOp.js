@@ -1,3 +1,8 @@
+
+import * as Blockly from "blockly/core";
+import { BlockMirrorTextToBlocks } from "../text_to_blocks";
+import * as python from "blockly/python";
+
 BlockMirrorTextToBlocks.BOOLOPS = [
     ["and", "And", python.pythonGenerator.ORDER_LOGICAL_AND, 'Return whether the left and right both evaluate to True.'],
     ["or", "Or", python.pythonGenerator.ORDER_LOGICAL_OR, 'Return whether either the left or right evaluate to True.']
@@ -50,5 +55,6 @@ BlockMirrorTextToBlocks.prototype['ast_BoolOp'] = function (node, parent) {
     }
     return result_block;
 };
+
 
 

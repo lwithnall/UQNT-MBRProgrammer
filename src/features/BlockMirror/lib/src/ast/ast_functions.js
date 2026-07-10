@@ -1,3 +1,6 @@
+import * as Blockly from "blockly/core";
+import { BlockMirrorTextToBlocks } from "../text_to_blocks";
+import * as python from "blockly/python";
 BlockMirrorTextToBlocks['ast_Image'] = function (node, parent, bmttb) {
     if (!bmttb.blockMirror.configuration.imageMode) {
         throw "Not using image constructor";
@@ -414,3 +417,4 @@ BlockMirrorTextToBlocks.getFunctionBlock = function(name, values, module) {
     // Return as either statement or expression
     return BlockMirrorTextToBlocks.xmlToString(newBlock);
 };
+

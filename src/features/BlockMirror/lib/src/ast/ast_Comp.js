@@ -1,3 +1,6 @@
+import * as Blockly from "blockly/core";
+import { BlockMirrorTextToBlocks } from "../text_to_blocks";
+import * as python from "blockly/python";
 BlockMirrorTextToBlocks.BLOCKS.push({
   type: "ast_comprehensionFor",
   message0: "for %1 in %2",
@@ -437,3 +440,4 @@ BlockMirrorTextToBlocks.COMP_SETTINGS = {
     );
   };
 });
+

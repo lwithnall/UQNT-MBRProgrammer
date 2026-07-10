@@ -1,3 +1,6 @@
+import * as Blockly from "blockly/core";
+import { BlockMirrorTextToBlocks } from "../text_to_blocks";
+import * as python from "blockly/python";
 BlockMirrorTextToBlocks.BLOCKS.push({
     "type": "ast_WithItem",
     "output": "WithItem",
@@ -137,3 +140,4 @@ BlockMirrorTextToBlocks.prototype['ast_With'] = function (node, parent) {
             'BODY': this.convertBody(body, node)
         });
 };
+

@@ -1,3 +1,6 @@
+import * as Blockly from "blockly/core";
+import { BlockMirrorTextToBlocks } from "../text_to_blocks";
+import * as python from "blockly/python";
 Blockly.Blocks['ast_ClassDef'] = {
     init: function () {
         this.decorators_ = 0;
@@ -152,3 +155,4 @@ BlockMirrorTextToBlocks.prototype['ast_ClassDef'] = function (node, parent) {
             'BODY': this.convertBody(body, node)
         });
 };
+

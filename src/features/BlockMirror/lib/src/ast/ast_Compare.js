@@ -1,3 +1,6 @@
+import * as Blockly from "blockly/core";
+import { BlockMirrorTextToBlocks } from "../text_to_blocks";
+import * as python from "blockly/python";
 BlockMirrorTextToBlocks.COMPARES = [
     ["==", "Eq", 'Return whether the two values are equal.'],
     ["!=", "NotEq", 'Return whether the two values are not equal.'],
