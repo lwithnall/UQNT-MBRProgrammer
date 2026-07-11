@@ -10,7 +10,8 @@ export function BlockEditor() {
     const editor = new BlockMirror({ container: containerRef.current });
 
     editor.addChangeListener(function (event) {
-        console.log('Change! Better save:', event)
+        console.log('Change! Better save:', event);
+
     });
     // editor.setCode('x = f\'Hello {name} how are you {day!r}\'\nclass X:\n    """Hello world"""\ndef add(self, a, b):\n        a = 0\n        return a\n\nx = X()\nx.add(5,3)');
 
