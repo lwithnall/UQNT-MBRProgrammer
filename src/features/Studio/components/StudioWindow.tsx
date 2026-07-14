@@ -18,7 +18,7 @@ export function StudioWindow({ id, children, ...MosaicWindowProps }: StudioWindo
 
   return (
     <MosaicWindow title="" {...MosaicWindowProps}>
-      <div ref={ref}>
+      <div ref={ref} className="h-full w-full">
         {children}  
       </div>
     </MosaicWindow>

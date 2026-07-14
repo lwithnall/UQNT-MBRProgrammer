@@ -3,7 +3,7 @@ import { StudioWindow } from "./StudioWindow";
 import { StudioProvider } from "../state";
 import { type MosaicState, type WindowId, defaultMosaicState } from "../lib";
 import { WidgetTabGroup } from "./WidgetTabGroup";
-import { BlockEditor } from "../../BlockMirror/components/BlockEditor";
+import { BlockEditor } from "../../BlockMirror/components";
 
 import "react-mosaic-component/react-mosaic-component.css"
 import "../styling/mosaic.css"
