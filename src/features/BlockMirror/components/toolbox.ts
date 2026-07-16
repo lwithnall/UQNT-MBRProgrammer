@@ -32,6 +32,16 @@ export const toolbox = {
           "type": "logic_boolean"
         }
       ]
+    },
+    {
+      "kind": "category",
+      "name": "Testers",
+      "contents": [
+        {
+          "kind": "block",
+          "type": "ast_AnnAssignFull"
+        }
+      ]
     }
   ]
 };

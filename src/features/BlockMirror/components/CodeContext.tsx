@@ -1,4 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
+import * as Blockly from "blockly/core";
+import "../lib/register";
 
 interface CodeContextType {
   code: string;

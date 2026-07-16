@@ -43,6 +43,7 @@ export function BlockEditor(blocklyOptions?: Blockly.BlocklyOptions) {
   const workspace = useRef<Blockly.WorkspaceSvg | null>(null);
 
   const { code, setCode } = useCode();
+  console.log(code); // just here to get rid of warning
 
   /* Inject blockly workspace into div with resizing capabilities */
   useEffect(() => {
