@@ -1,6 +1,4 @@
-// @ts-nocheck
-
-import { type BlockRegistrationContext } from "../types";
+import { type AstConversionInput, type BlockRegistrationContext } from "../types";
 import { BLOCK_COLOURS, ANNOTATION_OPTIONS, PYGEN_BLANK } from "../constants"
 
 /**
@@ -55,8 +53,8 @@ function registerAnnAssignFull({Blockly, python}: BlockRegistrationContext) {
   }
   
   python.pythonGenerator.forBlock['ast_AnnAssignFull'] = function(block, generator) {
-    let target = generator.valueToCode(block, 'TARGET', python.Order.NONE) || PYGEN_BLANK;
-    let annotation = generator.valueToCode(block, 'ANNOTATION', python.Order.NONE) || PYGEN_BLANK;
+    const target = generator.valueToCode(block, 'TARGET', python.Order.NONE) || PYGEN_BLANK;
+    const annotation = generator.valueToCode(block, 'ANNOTATION', python.Order.NONE) || PYGEN_BLANK;
     let value = "";
     if (this.initialized_) {
       value = " = " + generator.valueToCode(block, 'VALUE', python.Order.NONE) || PYGEN_BLANK;
@@ -82,7 +80,7 @@ function registerAnnAssignBasic({Blockly, python}: BlockRegistrationContext) {
         "options": ANNOTATION_OPTIONS,
       },
       {
-        "type": "value_input",
+        "type": "input_value",
         "name": "VALUE",
       }
     ],
@@ -124,7 +122,7 @@ function registerAnnAssignBasic({Blockly, python}: BlockRegistrationContext) {
   }
 
   python.pythonGenerator.forBlock['ast_AnnAssign'] = function(block, generator) {
-    var target = generator.getVariableName(block.getFieldValue('TARGET'));
+    const target = generator.getVariableName(block.getFieldValue('TARGET'));
     let annotation = block.getFieldValue('ANNOTATION');
     if ("strAnnotations_" in block && block.strAnnotations_) {
       annotation = generator.quote_(annotation);
@@ -137,25 +135,26 @@ function registerAnnAssignBasic({Blockly, python}: BlockRegistrationContext) {
   };
 }
 
-function astAnnAssign(node, parent) {
-  let target = node.target;
-  let annotation = node.annotation;
-  let value = node.value;
+function astAnnAssign({context: {textToBlocks}, node, parent}: AstConversionInput) {
+  const target = node.target;
+  const annotation = node.annotation;
+  const value = node.value;
 
-  let values = {};
-  let mutations = {'@initialized': false};
+  const values = {};
+  const mutations = {'@initialized': false};
   if (value !== null) {
-    values['VALUE'] = this.convert(value, node);
+    values['VALUE'] = textToBlocks.convert(value, node);
     mutations['@initialized'] = true;
   }
 
   // TODO: This controls whether the annotation is stored in __annotations__
-  let simple = node.simple;
-  let builtinAnnotation = this.getBuiltinAnnotation(annotation);
+  // const simple = node.simple;
+  
+  const builtinAnnotation = textToBlocks.getBuiltinAnnotation(annotation);
 
-  if (target._astname === 'Name' && target.id.v !== python.pythonGenerator.blank && builtinAnnotation !== false) {
+  if (target._astname === 'Name' && target.id.v !== PYGEN_BLANK && builtinAnnotation !== false) {
     mutations['@str'] = annotation._astname === 'Str'
-    return BlockMirrorTextToBlocks.create_block("ast_AnnAssign", node.lineno, {
+    return textToBlocks.create_block("ast_AnnAssign", node.lineno, {
       'TARGET': target.id.v,
       'ANNOTATION': builtinAnnotation,
     },
@@ -164,9 +163,9 @@ function astAnnAssign(node, parent) {
       "inline": "true",
     }, mutations);
   } else {
-    values['TARGET'] = this.convert(target, node);
-    values['ANNOTATION'] = this.convert(annotation, node);
-    return BlockMirrorTextToBlocks.create_block("ast_AnnAssignFull", node.lineno, {},
+    values['TARGET'] = textToBlocks.convert(target, node);
+    values['ANNOTATION'] = textToBlocks.convert(annotation, node);
+    return textToBlocks.create_block("ast_AnnAssignFull", node.lineno, {},
       values,
       {
         "inline": "true",

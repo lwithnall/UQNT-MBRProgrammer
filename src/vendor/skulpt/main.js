@@ -1,4 +1,5 @@
-require('./dist/skulpt.min.js');
-require('./dist/skulpt-stdlib.js');
+import "./dist/skulpt.js";
+import "./dist/skulpt-stdlib.js";
 
-module.exports = Sk;
+const Sk = window.Sk;
+export { Sk };

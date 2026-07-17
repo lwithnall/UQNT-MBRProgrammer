@@ -5,6 +5,8 @@ import * as Blockly from "blockly/core";
 import * as python from "blockly/python";
 import DarkTheme from "@blockly/theme-dark";
 import * as enModule from "blockly/msg/en";
+import { toolbox } from "../lib/toolbox";
+import "blockly/blocks";
 
 // Set localisation to English
 // enModule is CommonJS not an ESModule
@@ -24,7 +26,7 @@ const DEFAULT_BLOCKLY_OPTIONS: Blockly.BlocklyOptions = {
   },
   trashcan: true,
   theme: DarkTheme,
-  // toolbox: toolbox,
+  toolbox: toolbox,
 };
 
 // Store events as strings for later comparisons
@@ -42,6 +44,23 @@ export function BlockEditor(blocklyOptions?: Blockly.BlocklyOptions) {
 
   const { code, setCode } = useCode();
   console.log(code); // just here to get rid of warning
+
+
+  /* Update blockly workspace code on init / when other editors change it */
+  // const updateBlocksFromPython = () => {}
+
+  /* Convert blocks in workspace to code if param is a supported event */
+  const updatePythonFromBlocks = useCallback(
+    (event?: Blockly.Events.Abstract) => {
+      const ws = workspace.current;
+      if (ws === null || ws.isDragging()) return;
+      if (event === undefined || !SUPPORTED_EVENTS.has(event.type)) return;
+
+      const generatedCode = python.pythonGenerator.workspaceToCode(ws);
+      setCode(generatedCode);
+    },
+    [setCode],
+  );
 
   /* Inject blockly workspace into div with resizing capabilities */
   useEffect(() => {
@@ -67,23 +86,7 @@ export function BlockEditor(blocklyOptions?: Blockly.BlocklyOptions) {
       ws.dispose();
       workspace.current = null;
     }
-  }, [blocklyOptions])
-
-  /* Update blockly workspace code on init / when other editors change it */
-  // const updateBlocksFromPython = () => {}
-
-  /* Convert blocks in workspace to code if param is a supported event */
-  const updatePythonFromBlocks = useCallback(
-    (event?: Blockly.Events.Abstract) => {
-      const ws = workspace.current;
-      if (ws === null || ws.isDragging()) return;
-      if (event === undefined || !SUPPORTED_EVENTS.has(event.type)) return;
-
-      const generatedCode = python.pythonGenerator.workspaceToCode(ws);
-      setCode(generatedCode);
-    },
-    [setCode],
-  );
+  }, [blocklyOptions, updatePythonFromBlocks])
 
   return <div className="h-full w-full" ref={blocklyDiv} />
 }

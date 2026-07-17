@@ -1,20 +1,10 @@
-// @ts-nocheck
-// i am NOT typing the Sk module stuff holy BORING
-
-import { BlockRegistrationContext } from "../components/CodeContext";
-import { default as Sk } from "../../../vendor/skulpt/main";
-
-/* 
- * Default ast registration functions
- * TextToBlocks instance will support conversion for these blocks
- */
-const astRegistrationFuncs: Array<(context: BlockRegistrationContext) => void> = [
-  registerAnnAssign,
-];
-
-function registerBlocks(registerContext: BlockRegistrationContext) {
-  astRegistrationFuncs.forEach((regfunc) => regfunc(registerContext));
-}
+import type { 
+  BlockRegistrationContext, 
+  BlocklyAPI, 
+  PythonAPI, 
+  SkAPI,
+  astRegisterFunc
+} from "./types";
 
 
 /**
@@ -23,22 +13,57 @@ function registerBlocks(registerContext: BlockRegistrationContext) {
  * Registers to use via constructor
  */
 export class TextToBlocks {
-  astRegistry: Record<string, (registerContext, node, parent) => void>;
+  Blockly: BlocklyAPI;
+  python: PythonAPI;
+  Sk: SkAPI;
+  astRegistry: Record<string, (node, parent) => void>;
+  strictAnnotations: boolean;
 
-  constructor(Blockly, python) {
+  constructor(Blockly: BlocklyAPI, python: PythonAPI, Sk: SkAPI) {
     this.astRegistry = {};
-    this.Sk = Sk;
     this.Blockly = Blockly;
     this.python = python;
+    this.Sk = Sk;
+  }
+
+  registerAst(astfunc: astRegisterFunc) {
+    const context: BlockRegistrationContext = {
+      Blockly: this.Blockly, 
+      python: this.python,
+      textToBlocks: this
+    };
+    astfunc(context);
   }
 
   /* */
   convert(node, parent) {
-    let functionName = 'ast_' + node._astname;
+    const functionName = 'ast_' + node._astname;
     if (this.astRegistry[functionName] === undefined) {
       throw new Error("Could not find function: " + functionName);
     }
     node._parent = parent;
     return this.astRegistry[functionName](node, parent);
+  }
+
+  /* */
+  getBuiltinAnnotation(annotation) {
+    let result = false;
+    // Can we turn it into a basic type?
+    if (annotation._astname === 'Name') {
+        result = this.Sk.ffi.remapToJs(annotation.id);
+    } else if (annotation._astname === 'Str') {
+        result = this.Sk.ffi.remapToJs(annotation.s);
+    }
+
+    // Potentially filter out unknown annotations
+    if (result !== false && this.strictAnnotations) {
+        if (this.strictAnnotations.indexOf(result) !== -1) {
+            return result;
+        } else {
+            return false;
+        }
+    } else {
+        return result;
+    }
   }
 }
