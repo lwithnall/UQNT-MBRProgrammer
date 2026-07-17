@@ -1,10 +1,8 @@
 import { useRef, useEffect, useCallback } from "react";
 import { useCode } from "./CodeContext";
-import { toolbox } from "./toolbox";
 
 import * as Blockly from "blockly/core";
 import * as python from "blockly/python";
-import "blockly/blocks";
 import DarkTheme from "@blockly/theme-dark";
 import * as enModule from "blockly/msg/en";
 
@@ -26,7 +24,7 @@ const DEFAULT_BLOCKLY_OPTIONS: Blockly.BlocklyOptions = {
   },
   trashcan: true,
   theme: DarkTheme,
-  toolbox: toolbox,
+  // toolbox: toolbox,
 };
 
 // Store events as strings for later comparisons

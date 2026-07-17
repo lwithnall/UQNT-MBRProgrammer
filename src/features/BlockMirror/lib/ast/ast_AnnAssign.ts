@@ -1,11 +1,12 @@
-import * as Blockly from "blockly/core";
-import * as python from "blockly/python";
+// @ts-nocheck
+
+import { type BlockRegistrationContext } from "../types";
 import { BLOCK_COLOURS, ANNOTATION_OPTIONS, PYGEN_BLANK } from "../constants"
 
 /**
  * registerAnnAssignFull()
  */
-export function registerAnnAssignFull() {
+function registerAnnAssignFull({Blockly, python}: BlockRegistrationContext) {
   const annAssignFullJson = {
     "message0": "set %1 : %2",
     "args0": [
@@ -67,7 +68,7 @@ export function registerAnnAssignFull() {
 /**
  * registerAnnAssignBasic()
  */
-function registerAnnAssignBasic() {
+function registerAnnAssignBasic({Blockly, python}: BlockRegistrationContext) {
   const annAssignJson = {
     "message0": "set %1 : %2 = %3",
     "args0": [
@@ -136,10 +137,48 @@ function registerAnnAssignBasic() {
   };
 }
 
-export function registerAnnAssign() {
-  // Used interchangably, should be registered together
-  registerAnnAssignFull();
-  registerAnnAssignBasic();
+function astAnnAssign(node, parent) {
+  let target = node.target;
+  let annotation = node.annotation;
+  let value = node.value;
+
+  let values = {};
+  let mutations = {'@initialized': false};
+  if (value !== null) {
+    values['VALUE'] = this.convert(value, node);
+    mutations['@initialized'] = true;
+  }
+
+  // TODO: This controls whether the annotation is stored in __annotations__
+  let simple = node.simple;
+  let builtinAnnotation = this.getBuiltinAnnotation(annotation);
+
+  if (target._astname === 'Name' && target.id.v !== python.pythonGenerator.blank && builtinAnnotation !== false) {
+    mutations['@str'] = annotation._astname === 'Str'
+    return BlockMirrorTextToBlocks.create_block("ast_AnnAssign", node.lineno, {
+      'TARGET': target.id.v,
+      'ANNOTATION': builtinAnnotation,
+    },
+    values,
+    {
+      "inline": "true",
+    }, mutations);
+  } else {
+    values['TARGET'] = this.convert(target, node);
+    values['ANNOTATION'] = this.convert(annotation, node);
+    return BlockMirrorTextToBlocks.create_block("ast_AnnAssignFull", node.lineno, {},
+      values,
+      {
+        "inline": "true",
+      }, mutations);
+  }
+}
 
 
+export function registerAnnAssign(context: BlockRegistrationContext) {
+  // Should be registered together
+  registerAnnAssignFull(context);
+  registerAnnAssignBasic(context);
+
+  context.textToBlocks.astRegistry['ast_AnnAssign'] = astAnnAssign;
 }
