@@ -1,14 +1,13 @@
-import { Block } from "blockly";
-import type { 
-  BlockRegistrationContext, 
-  BlocklyAPI, 
-  PythonAPI, 
+import { Block } from 'blockly';
+import type {
+  BlockRegistrationContext,
+  BlocklyAPI,
+  PythonAPI,
   astNode,
   SkAPI,
   AstRegisterFunc,
   AstConversionFunc,
-} from "./types";
-
+} from './types';
 
 /**
  * TextToBlocks
@@ -23,9 +22,9 @@ export class TextToBlocks {
 
   constructor(Blockly: BlocklyAPI, python: PythonAPI, Sk: SkAPI) {
     this.context = {
-      Blockly: Blockly, 
+      Blockly: Blockly,
       python: python,
-      textToBlocks: this
+      textToBlocks: this,
     };
     this.Sk = Sk;
     this.astRegistry = {};
@@ -40,24 +39,19 @@ export class TextToBlocks {
   convert(node: astNode, parent: astNode) {
     const functionName = 'ast_' + node._astname;
     if (this.astRegistry[functionName] === undefined) {
-      throw new Error("Could not find function: " + functionName);
+      throw new Error('Could not find function: ' + functionName);
     }
     const context = this.context;
     node._parent = parent;
-    return this.astRegistry[functionName]({context, node, parent});
+    return this.astRegistry[functionName]({ context, node, parent });
   }
 
   /*  */
-  createBlock(
-    type,
-    lineNumber,
-    fields,
-    values,
-    settings?,
-    mutations?,
-    statements?
-  ): Block {
-    return ("Im a block :D");
+  convertElements() {}
+
+  /*  */
+  createBlock(type, lineNumber, fields?, values?, settings?, mutations?, statements?): Block {
+    return 'Im a block :D';
   }
 
   /* */
@@ -65,20 +59,20 @@ export class TextToBlocks {
     let result = false;
     // Can we turn it into a basic type?
     if (annotation._astname === 'Name') {
-        result = this.Sk.ffi.remapToJs(annotation.id);
+      result = this.Sk.ffi.remapToJs(annotation.id);
     } else if (annotation._astname === 'Str') {
-        result = this.Sk.ffi.remapToJs(annotation.s);
+      result = this.Sk.ffi.remapToJs(annotation.s);
     }
 
     // Potentially filter out unknown annotations
     if (result !== false && this.strictAnnotations) {
-        if (this.strictAnnotations.indexOf(result) !== -1) {
-            return result;
-        } else {
-            return false;
-        }
-    } else {
+      if (this.strictAnnotations.indexOf(result) !== -1) {
         return result;
+      } else {
+        return false;
+      }
+    } else {
+      return result;
     }
   }
 }
