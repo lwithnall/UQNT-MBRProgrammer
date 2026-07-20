@@ -1,9 +1,12 @@
+import { Block } from "blockly";
 import type { 
   BlockRegistrationContext, 
   BlocklyAPI, 
   PythonAPI, 
+  astNode,
   SkAPI,
-  astRegisterFunc
+  AstRegisterFunc,
+  AstConversionFunc,
 } from "./types";
 
 
@@ -13,36 +16,48 @@ import type {
  * Registers to use via constructor
  */
 export class TextToBlocks {
-  Blockly: BlocklyAPI;
-  python: PythonAPI;
+  context: BlockRegistrationContext;
   Sk: SkAPI;
-  astRegistry: Record<string, (node, parent) => void>;
-  strictAnnotations: boolean;
+  astRegistry: Record<string, AstConversionFunc>;
+  strictAnnotations: Array<string>;
 
   constructor(Blockly: BlocklyAPI, python: PythonAPI, Sk: SkAPI) {
-    this.astRegistry = {};
-    this.Blockly = Blockly;
-    this.python = python;
-    this.Sk = Sk;
-  }
-
-  registerAst(astfunc: astRegisterFunc) {
-    const context: BlockRegistrationContext = {
-      Blockly: this.Blockly, 
-      python: this.python,
+    this.context = {
+      Blockly: Blockly, 
+      python: python,
       textToBlocks: this
     };
-    astfunc(context);
+    this.Sk = Sk;
+    this.astRegistry = {};
+    this.strictAnnotations = []; // placeholder
+  }
+
+  registerAst(astfunc: AstRegisterFunc) {
+    astfunc(this.context);
   }
 
   /* */
-  convert(node, parent) {
+  convert(node: astNode, parent: astNode) {
     const functionName = 'ast_' + node._astname;
     if (this.astRegistry[functionName] === undefined) {
       throw new Error("Could not find function: " + functionName);
     }
+    const context = this.context;
     node._parent = parent;
-    return this.astRegistry[functionName](node, parent);
+    return this.astRegistry[functionName]({context, node, parent});
+  }
+
+  /*  */
+  createBlock(
+    type,
+    lineNumber,
+    fields,
+    values,
+    settings?,
+    mutations?,
+    statements?
+  ): Block {
+    return ("Im a block :D");
   }
 
   /* */
