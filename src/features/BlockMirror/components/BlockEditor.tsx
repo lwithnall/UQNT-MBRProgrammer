@@ -1,16 +1,16 @@
-import { useRef, useEffect, useCallback } from "react";
-import { useCode } from "./CodeContext";
+import { useRef, useEffect, useCallback } from 'react';
+import { useCode } from './CodeContext';
 
-import * as Blockly from "blockly/core";
-import * as python from "blockly/python";
-import DarkTheme from "@blockly/theme-dark";
-import * as enModule from "blockly/msg/en";
-import { toolbox } from "../lib/toolbox";
-import "blockly/blocks";
+import * as Blockly from 'blockly/core';
+import * as python from 'blockly/python';
+import DarkTheme from '@blockly/theme-dark';
+import * as enModule from 'blockly/msg/en';
+import { toolbox } from '../tslib/toolbox';
+import 'blockly/blocks';
 
 // Set localisation to English
 // enModule is CommonJS not an ESModule
-const en = "default" in enModule ? enModule.default : enModule;
+const en = 'default' in enModule ? enModule.default : enModule;
 Blockly.setLocale(en);
 
 const DEFAULT_BLOCKLY_OPTIONS: Blockly.BlocklyOptions = {
@@ -30,13 +30,14 @@ const DEFAULT_BLOCKLY_OPTIONS: Blockly.BlocklyOptions = {
 };
 
 // Store events as strings for later comparisons
-const SUPPORTED_EVENTS = new Set([
-  Blockly.Events.BLOCK_CHANGE,
-  Blockly.Events.BLOCK_CREATE,
-  Blockly.Events.BLOCK_DELETE,
-  Blockly.Events.BLOCK_MOVE,
-].map((e) => e.toString()));
-
+const SUPPORTED_EVENTS = new Set(
+  [
+    Blockly.Events.BLOCK_CHANGE,
+    Blockly.Events.BLOCK_CREATE,
+    Blockly.Events.BLOCK_DELETE,
+    Blockly.Events.BLOCK_MOVE,
+  ].map((e) => e.toString())
+);
 
 export function BlockEditor(blocklyOptions?: Blockly.BlocklyOptions) {
   const blocklyDiv = useRef<HTMLDivElement | null>(null);
@@ -44,7 +45,6 @@ export function BlockEditor(blocklyOptions?: Blockly.BlocklyOptions) {
 
   const { code, setCode } = useCode();
   console.log(code); // just here to get rid of warning
-
 
   /* Update blockly workspace code on init / when other editors change it */
   // const updateBlocksFromPython = () => {}
@@ -59,7 +59,7 @@ export function BlockEditor(blocklyOptions?: Blockly.BlocklyOptions) {
       const generatedCode = python.pythonGenerator.workspaceToCode(ws);
       setCode(generatedCode);
     },
-    [setCode],
+    [setCode]
   );
 
   /* Inject blockly workspace into div with resizing capabilities */
@@ -85,8 +85,8 @@ export function BlockEditor(blocklyOptions?: Blockly.BlocklyOptions) {
       ws.removeChangeListener(updatePythonFromBlocks);
       ws.dispose();
       workspace.current = null;
-    }
-  }, [blocklyOptions, updatePythonFromBlocks])
+    };
+  }, [blocklyOptions, updatePythonFromBlocks]);
 
-  return <div className="h-full w-full" ref={blocklyDiv} />
+  return <div className="h-full w-full" ref={blocklyDiv} />;
 }
