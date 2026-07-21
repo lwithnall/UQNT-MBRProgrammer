@@ -1,6 +1,6 @@
-import React from "react";
-import type { WidgetMap, WindowMap, MosaicState, StudioState } from "./types"
-import { FaCode, FaPuzzlePiece, FaExclamation, FaHandsHelping } from "react-icons/fa"
+import React from 'react';
+import type { WidgetMap, WindowMap, MosaicState, StudioState } from './types';
+import { FaCode, FaPuzzlePiece, FaExclamation, FaHandsHelping } from 'react-icons/fa';
 
 const placeholderWidget = React.Component;
 
@@ -10,25 +10,25 @@ const placeholderWidget = React.Component;
  */
 export const widgets: WidgetMap = {
   info: {
-    displayName: "Info",
+    displayName: 'Info',
     icon: FaExclamation,
     content: placeholderWidget,
   },
   help: {
-    displayName: "Help",
+    displayName: 'Help',
     icon: FaHandsHelping,
     content: placeholderWidget,
   },
   blockly: {
-    displayName: "Blockly",
+    displayName: 'Blockly',
     icon: FaPuzzlePiece,
     content: placeholderWidget,
   },
-  code: { 
-    displayName: "Code",
+  code: {
+    displayName: 'Code',
     icon: FaCode,
-    content: placeholderWidget 
-  }, 
+    content: placeholderWidget,
+  },
 };
 
 /*
@@ -36,9 +36,9 @@ export const widgets: WidgetMap = {
  * Windows MUST have at least one widget, and an active widget selected
  */
 export const defaultWindows: WindowMap = {
-  win1: { widgets: ["blockly"], activeWidget: "blockly" },
-  win2: { widgets: ["info", "help", "code"], activeWidget: "info" },
-};  
+  win1: { widgets: ['blockly'], activeWidget: 'blockly' },
+  win2: { widgets: ['info', 'help', 'code'], activeWidget: 'info' },
+};
 
 /**
  * Initial mosaic layout
@@ -47,8 +47,7 @@ export const defaultWindows: WindowMap = {
 export const defaultMosaicState: MosaicState = {
   type: 'split',
   direction: 'row',
-  // children: ['win1', 'win2'],
-  children: ['win2'],
+  children: ['win1', 'win2'],
 };
 
 /* Default workspace state for app */

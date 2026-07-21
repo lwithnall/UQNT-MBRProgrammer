@@ -1,37 +1,38 @@
-import * as Blockly from "blockly/core";
-import * as python from "blockly/python";
-import { useCode } from "./CodeContext";
-import { useState, useRef, useCallback, useEffect } from "react";
-import { DEFAULT_BLOCKLY_OPTIONS, SUPPORTED_BLOCKLY_EVENTS } from "../lib/constants";
+import * as Blockly from 'blockly/core';
+import * as python from 'blockly/python';
+import { useCode } from './CodeContext';
+import { useRef, useCallback, useEffect } from 'react';
+import { DEFAULT_BLOCKLY_OPTIONS, SUPPORTED_BLOCKLY_EVENTS } from '../lib/constants';
 
 export function BlockEditor() {
   const blocklyDiv = useRef<HTMLDivElement | null>(null);
   const workspace = useRef<Blockly.WorkspaceSvg | null>(null);
-  // Are blocks updating from external input? - ignore change listeners if true 
-  const [ externalUpdate, setExternalUpdate ] = useState<boolean>(false);
+  // Are blocks updating from external input? - ignore change listeners if true
+  const externalUpdate = useRef<boolean>(false);
   const { code, setCode } = useCode();
 
   /* If code value changes, update the blocks in this editor to match */
   const updateBlocksFromPython = useCallback(() => {
     console.log('change detected - handle update');
-    setExternalUpdate(false);
-  }, []);  
+    externalUpdate.current = false;
+  }, []);
 
   /* When user updates blocks in editor, update CodeContext's code to match */
   const updatePythonFromBlocks = useCallback(
     (event?: Blockly.Events.Abstract) => {
       const ws = workspace.current;
-      if (ws === null || ws.isDragging() || externalUpdate) return;
+      if (ws === null || ws.isDragging() || externalUpdate?.current) return;
       if (event === undefined || !SUPPORTED_BLOCKLY_EVENTS.has(event.type)) return;
 
       const generatedCode = python.pythonGenerator.workspaceToCode(ws);
       setCode(generatedCode);
-    }, [setCode]
-  )
+    },
+    [setCode, externalUpdate]
+  );
 
-  /* 
+  /*
    * Inject blockly workspace into div (resizeable)
-   * Implements change listener calling updatePythonFromBlocks() 
+   * Implements change listener calling updatePythonFromBlocks()
    */
   useEffect(() => {
     if (!blocklyDiv.current) return;
@@ -49,14 +50,14 @@ export function BlockEditor() {
       ws.removeChangeListener(updatePythonFromBlocks);
       ws.dispose();
       workspace.current = null;
-    }
-  }, [DEFAULT_BLOCKLY_OPTIONS, updatePythonFromBlocks]);
+    };
+  }, [updatePythonFromBlocks]);
 
   /* Monitor and handle external code changes */
   useEffect(() => {
-    setExternalUpdate(true);
+    externalUpdate.current = true;
     updateBlocksFromPython();
-  }, [code]);
+  }, [code, updateBlocksFromPython]);
 
   return <div className="h-full w-full" ref={blocklyDiv} />;
 }

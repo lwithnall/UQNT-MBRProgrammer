@@ -1,4 +1,5 @@
-import { BlockEditor } from "./BlockEditor";
-import { CodeProvider, useCode } from "./CodeContext";
+import { BlockEditor } from './BlockEditor';
+import { CodeEditor } from './CodeEditor';
+import { CodeProvider } from './CodeContext';
 
-export { BlockEditor, CodeProvider, useCode };
+export { BlockEditor, CodeProvider, CodeEditor };

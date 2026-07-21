@@ -1,22 +1,22 @@
 // @ts-expect-error - I AM NOT ADDING TYPING FOR THIS THING AAAAAARRRRGHHH
 import * as Sk from '../../../vendor/skulpt/main';
-import * as Blockly from "blockly/core";
+import * as Blockly from 'blockly/core';
 import * as enModule from 'blockly/msg/en';
-import * as python from "blockly/python";
+import * as python from 'blockly/python';
 import { createContext, useContext, useEffect, useState } from 'react';
 import { DEFAULT_CODE } from '../lib/constants';
 
 // MUST COME AFTER BLOCKLY AND PYTHON IMPORTS
 // Registers blockly blocks / python generators / whatnot
-import "../lib/astRegister";
+import 'blockly/blocks';
+import '../lib/astRegister';
 
-/* 
+/*
  * Hack-ish: should be en by default but throws error without this
- * quick fix and it works 
+ * quick fix and it works
  */
 const en = 'default' in enModule ? enModule.default : enModule;
 Blockly.setLocale(en);
-
 
 /* Exposed code context API for external components */
 interface CodeContextType {
@@ -25,9 +25,8 @@ interface CodeContextType {
 }
 const CodeContext = createContext<CodeContextType | undefined>(undefined);
 
-
 /**
- * Code context for studio workspace; 
+ * Code context for studio workspace;
  * Handles set-up & synchronisation for block and code editors
  */
 export function CodeProvider({ children }: React.PropsWithChildren) {
