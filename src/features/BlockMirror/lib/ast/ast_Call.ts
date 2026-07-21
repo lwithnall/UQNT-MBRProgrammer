@@ -3,18 +3,12 @@
  */
 
 import { BLOCK_COLOURS } from '../constants';
-import type { AstConversionInput, BlockRegistrationContext } from '../types';
+import type { BlockRegistrationContext } from '../types';
 
 export function registerCall({ Blockly, python, textToBlocks }: BlockRegistrationContext) {
-  const callJson = {
-    inputsInline: true,
-    colour: BLOCK_COLOURS.FUNCTIONS,
-  };
-
   Blockly.Blocks['ast_Call'] = {
     init: function () {
-      this.jsonInit(callJson);
-
+      this.inputsInline(true);
       this.givenColour_ = BLOCK_COLOURS.FUNCTIONS;
       this.arguments_ = [];
       this.argumentVarModels_ = [];
@@ -31,9 +25,12 @@ export function registerCall({ Blockly, python, textToBlocks }: BlockRegistratio
       this.updateShape_();
     },
 
+    saveExtraState: function () {},
+    loadExtraState: function () {},
+
     /**
-     * Returns the name of the procedure this block calls.
-     * @return {string} Procedure name.
+     * Return name of procedure this block calls
+     * @return {string} procedure name
      * @this Blockly.Block
      */
     getProcedureCall: function () {
@@ -64,16 +61,14 @@ export function registerCall({ Blockly, python, textToBlocks }: BlockRegistratio
      * @private
      * @this Blockly.Block
      */
-    setProcedureParameters_: function (paramNames, paramIds) {
+    setProcedureParameters_: function (paramNames: string[], paramIds: string[]) {
       // Data structures:
-      // this.arguments = ['x', 'y']
-      //     Existing param names.
+      // this.arguments = ['x', 'y'] -> existing param names.
+      // this.quarkIds_ = ['piua', 'f8b_'] -> existing param IDs.
       // this.quarkConnections_ {piua: null, f8b_: Blockly.Connection}
-      //     Look-up of paramIds to connections plugged into the call block.
-      // this.quarkIds_ = ['piua', 'f8b_']
-      //     Existing param IDs.
-      // Note that quarkConnections_ may include IDs that no longer exist, but
-      // which might reappear if a param is reattached in the mutator.
+      //     -> Look-up of paramIds to connections plugged into the call block.
+      // NOTE: quarkConnections_ may include IDs that no longer exist, but
+      //       which might reappear if a param is reattached in the mutator.
       const defBlock = Blockly.Procedures.getDefinition(this.getProcedureCall(), this.workspace);
       const mutatorOpen = defBlock && defBlock.mutator && defBlock.mutator.isVisible();
       if (!mutatorOpen) {
@@ -154,8 +149,6 @@ export function registerCall({ Blockly, python, textToBlocks }: BlockRegistratio
       }
       return true;
     },
-    saveExtraState: function () {},
-    loadExtraState: function () {},
     updateShape_: function () {},
   };
 }
