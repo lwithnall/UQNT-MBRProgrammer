@@ -1,4 +1,4 @@
-import { Sk } from '../../../vendor/skulpt/main.js';
+import { Sk } from '../../../../vendor/skulpt/main.js';
 import * as Blockly from 'blockly/core';
 import './main.js';
 import { BlockMirrorBlockEditor } from './block_editor';

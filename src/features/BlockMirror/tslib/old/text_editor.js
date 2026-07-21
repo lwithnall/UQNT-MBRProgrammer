@@ -1,4 +1,4 @@
-import CodeMirror from "../lib/codemirror/codemirror.js";
+import CodeMirror from "../../lib/codemirror/codemirror.js";
 
 export function BlockMirrorTextEditor(blockMirror) {
     this.blockMirror = blockMirror;
