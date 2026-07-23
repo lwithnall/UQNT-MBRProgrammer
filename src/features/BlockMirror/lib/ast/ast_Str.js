@@ -207,8 +207,8 @@ BlockMirrorTextToBlocks.prototype.dedent = function (text, levels, isDocString) 
 BlockMirrorTextToBlocks.prototype['ast_Str'] = function (node, parent) {
   let s = node.s;
   let text = Sk.ffi.remapToJs(s);
-  const regex = REGEX_PATTERNS[this.blockMirror.configuration.imageDetection];
-  //console.log(text, regex.test(JSON.stringify(text)));
+  // const regex = REGEX_PATTERNS[this.blockMirror.configuration.imageDetection];
+  const regex = REGEX_PATTERNS['string'];
   if (regex.test(JSON.stringify(text))) {
     //if (text.startsWith("http") && text.endsWith(".png")) {
     return BlockMirrorTextToBlocks.create_block(

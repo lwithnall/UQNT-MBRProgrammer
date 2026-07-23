@@ -17,6 +17,7 @@ export const DEFAULT_BLOCKLY_OPTIONS: Blockly.BlocklyOptions = {
     pinch: true,
   },
   trashcan: true,
+  oneBasedIndex: false,
   theme: DarkTheme,
   toolbox: toolbox,
 };
@@ -26,6 +27,7 @@ export const SUPPORTED_BLOCKLY_EVENTS = new Set(
     Blockly.Events.BLOCK_CREATE,
     Blockly.Events.BLOCK_DELETE,
     Blockly.Events.BLOCK_MOVE,
+    Blockly.Events.VAR_RENAME,
   ].map((e) => e.toString())
 );
 

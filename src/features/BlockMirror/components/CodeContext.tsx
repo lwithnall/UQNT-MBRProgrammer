@@ -10,6 +10,7 @@ import { DEFAULT_CODE } from '../lib/constants';
 // Registers blockly blocks / python generators / whatnot
 import 'blockly/blocks';
 import '../lib/astRegister';
+import '../lib/blockly_shims';
 
 /*
  * Hack-ish: should be en by default but throws error without this
