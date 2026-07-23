@@ -1,8 +1,8 @@
-// @ts-expect-error - I AM NOT ADDING TYPING FOR THIS THING AAAAAARRRRGHHH
-import * as Sk from '../../../vendor/skulpt/main';
+// // @ts-expect-error - I AM NOT ADDING TYPING FOR THIS THING AAAAAARRRRGHHH
+// import * as Sk from '../../../vendor/skulpt/main';
 import * as Blockly from 'blockly/core';
 import * as enModule from 'blockly/msg/en';
-import * as python from 'blockly/python';
+// import * as python from 'blockly/python';
 import { createContext, useContext, useEffect, useState } from 'react';
 import { DEFAULT_CODE } from '../lib/constants';
 
