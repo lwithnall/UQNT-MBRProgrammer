@@ -8,17 +8,17 @@ import { DEFAULT_BLOCKLY_OPTIONS, SUPPORTED_BLOCKLY_EVENTS } from '../lib/consta
 export function BlockEditor() {
   const blocklyDiv = useRef<HTMLDivElement | null>(null);
   const workspace = useRef<Blockly.WorkspaceSvg | null>(null);
-  // Are blocks updating from external input? - ignore change listeners if true
-  const externalUpdate = useRef<boolean>(false);
   const textToBlocks = useMemo(() => new BlockMirrorTextToBlocks(), []);
   const { code, setCode } = useCode();
 
   /* If code value changes, update the blocks in this editor to match */
-  const updateBlocksFromPython = useCallback(() => {
+  useEffect(() => {
     if (workspace.current === null) return;
-    console.log(Object.keys(textToBlocks));
+    Blockly.Events.disable(); // Avoid trigerring rerenders
+
     const result = textToBlocks.convertSource('__main__.py', code);
     try {
+      console.log(result);
       const xml_code = Blockly.utils.xml.textToDom(result.xml);
       for (let i = 0, xmlChild; (xmlChild = xml_code.childNodes[i]); i++) {
         // @ts-expect-error - fix later or sum idk
@@ -31,14 +31,9 @@ export function BlockEditor() {
       console.error(error);
     }
 
-    externalUpdate.current = false;
+    console.log('CODE UPDATE DONE');
+    Blockly.Events.enable();
   }, [code, textToBlocks]);
-
-  /* Monitor and handle external code changes */
-  useEffect(() => {
-    externalUpdate.current = true;
-    updateBlocksFromPython();
-  }, [code, updateBlocksFromPython]);
 
   /*
    * When user updates blocks in editor, update CodeContext's code to match
@@ -47,13 +42,14 @@ export function BlockEditor() {
   const updatePythonFromBlocks = useCallback(
     (event?: Blockly.Events.Abstract) => {
       const ws = workspace.current;
-      if (ws === null || ws.isDragging() || externalUpdate?.current) return;
+      if (ws === null || ws.isDragging()) return;
       if (event === undefined || !SUPPORTED_BLOCKLY_EVENTS.has(event.type)) return;
 
+      console.log('BLOCKS CHANGED -> UPDATING');
       const generatedCode = python.pythonGenerator.workspaceToCode(ws);
       setCode(generatedCode);
     },
-    [setCode, externalUpdate]
+    [setCode]
   );
 
   /*

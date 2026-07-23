@@ -1,5 +1,16 @@
 import * as python from 'blockly/python';
 import * as Blockly from 'blockly/core';
+import { Sk } from '../../../vendor/skulpt/main';
+
+Sk.configure({
+  __future__: Sk.python3,
+  read: function (filename) {
+    if (Sk.builtinFiles === undefined || Sk.builtinFiles['files'][filename] === undefined) {
+      throw "File not found: '" + filename + "'";
+    }
+    return Sk.builtinFiles['files'][filename];
+  },
+});
 
 export function BlockMirrorTextToBlocks() {
   this.hiddenImports = ['plt'];
@@ -31,7 +42,6 @@ BlockMirrorTextToBlocks.prototype.convertSourceToCodeBlock = function (python_so
  *      source code or an error message and the code as a code-block.
  */
 BlockMirrorTextToBlocks.prototype.convertSource = function (filename, python_source) {
-  console.log('hello everybody my name is markiplier');
   let xml = document.createElement('xml');
   // Attempt parsing - might fail!
   let parse,
@@ -490,7 +500,7 @@ BlockMirrorTextToBlocks.create_block = function (
       }
     }
   }
-  return newBlock;  
+  return newBlock;
 };
 
 BlockMirrorTextToBlocks.raw_block = function (txt, lineno) {

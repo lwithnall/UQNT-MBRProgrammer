@@ -3,7 +3,7 @@
 import * as Blockly from 'blockly/core';
 import * as enModule from 'blockly/msg/en';
 // import * as python from 'blockly/python';
-import { createContext, useContext, useEffect, useState } from 'react';
+import { createContext, useContext, useState } from 'react';
 import { DEFAULT_CODE } from '../lib/constants';
 
 // MUST COME AFTER BLOCKLY AND PYTHON IMPORTS
@@ -32,9 +32,9 @@ const CodeContext = createContext<CodeContextType | undefined>(undefined);
 export function CodeProvider({ children }: React.PropsWithChildren) {
   // Code stade of studio, should be same between registered editors
   const [code, setCode] = useState<string>(DEFAULT_CODE);
-  useEffect(() => {
-    console.log(`Code updating too: ${code}`);
-  }, [code]);
+  // useEffect(() => {
+  //   console.log(`Code updating too: ${code}`);
+  // }, [code]);
 
   return <CodeContext.Provider value={{ code, setCode }}>{children}</CodeContext.Provider>;
 }
