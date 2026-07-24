@@ -1,7 +1,9 @@
 import { type ComponentProps } from 'react';
 import { cn } from '../lib/utils';
+import type { IconType } from 'react-icons';
 
 export interface ButtonProps extends ComponentProps<'button'> {
+  icon?: IconType;
   variant?: 'default' | 'link' | 'disabled';
   size?: 'small' | 'medium' | 'large' | 'icon';
   greyed?: boolean;
@@ -23,6 +25,7 @@ const btnSizeStyling = {
 };
 
 export function Button({
+  icon: Icon,
   variant = 'default',
   size = 'small',
   greyed = false,
@@ -42,6 +45,7 @@ export function Button({
 
   return (
     <button className={cn(styling)} {...props}>
+      {Icon && <Icon />}
       {children}
     </button>
   );

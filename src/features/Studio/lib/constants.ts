@@ -1,56 +1,49 @@
-import React from 'react';
-import type { WidgetMap, WindowMap, MosaicState, StudioState } from './types';
+import type { WidgetMap, WindowMap, StudioState, WindowMosaicNode } from './types';
+import { BlockEditor, CodeEditor } from '../../BlockMirror/components';
+import { HelpWidget, InfoWidget } from '../../Pager';
 import { FaCode, FaPuzzlePiece, FaExclamation, FaHandsHelping } from 'react-icons/fa';
 
-const placeholderWidget = React.Component;
-
-/*
- * Widget information
- * displayName and icon are used for the tab layout
- */
+/* Mapping between widgets and info required to render them */
 export const widgets: WidgetMap = {
   info: {
     displayName: 'Info',
     icon: FaExclamation,
-    content: placeholderWidget,
+    content: InfoWidget,
   },
   help: {
     displayName: 'Help',
     icon: FaHandsHelping,
-    content: placeholderWidget,
+    content: HelpWidget,
   },
   blockly: {
     displayName: 'Blockly',
     icon: FaPuzzlePiece,
-    content: placeholderWidget,
+    content: BlockEditor,
   },
   code: {
     displayName: 'Code',
     icon: FaCode,
-    content: placeholderWidget,
+    content: CodeEditor,
   },
 };
 
 /*
- * Multiple widgets can be accessible through a single window
- * Windows MUST have at least one widget, and an active widget selected
+ * Windows store widget tab groups used by the user to
+ * switch to corresponding content (e.g. blockly editor div)
  */
 export const defaultWindows: WindowMap = {
   win1: { widgets: ['blockly'], activeWidget: 'blockly' },
   win2: { widgets: ['info', 'help', 'code'], activeWidget: 'info' },
 };
 
-/**
- * Initial mosaic layout
- * State stored in binary tree, only allows 'first' and 'second' branches
- */
-export const defaultMosaicState: MosaicState = {
+/* Default layout of studio windows */
+export const defaultMosaicState: WindowMosaicNode = {
   type: 'split',
   direction: 'row',
   children: ['win1', 'win2'],
 };
 
-/* Default workspace state for app */
+/* Default studio state */
 export const defaultStudio: StudioState = {
   windows: defaultWindows,
   mosaic: defaultMosaicState,

@@ -1,31 +1,42 @@
-import { type MosaicNode } from "react-mosaic-component";
-import { type IconType } from "react-icons";
-import { type UniqueIdentifier } from "@dnd-kit/abstract";
+import { type IconType } from 'react-icons';
+import { type UniqueIdentifier } from '@dnd-kit/abstract';
+import type { MosaicNode } from 'react-mosaic-component';
 
 // Basic unique identifier stuff
-export type WindowId = UniqueIdentifier;
 export type WidgetId = UniqueIdentifier;
+export type WindowId = UniqueIdentifier;
+export type WindowMosaicNode = MosaicNode<WindowId>;
 
-/* Mapping widgets to their data */
-export type WidgetMap = Record<WidgetId, WidgetData>;
+/*
+ * Data required to render a widget into a window
+ *   icon: the icon on the corresponding widget tab
+ *   displayName: the text on the corresponding widget tab (only icon if null)
+ *   content: React component loaded by window when widget is active
+ */
 export type WidgetData = {
-  icon: IconType;                // Icon used to represent widget
-  displayName: string | null;    // String used to represent widget
-  content: React.ComponentType;  // JSX content for widget
-}
+  icon: IconType;
+  displayName: string | null;
+  content: React.ComponentType;
+};
+export type WidgetMap = Record<WidgetId, WidgetData>;
 
-/* (Mosaic) window holding rendered widget content */
-export type WindowMap = Record<WindowId, WindowData>;
+/* (Mosaic) window holding widget tabs and rendered content
+ *  widgets: available widget tabs
+ *  activeWidget: selected widget, will render this widgets content
+ */
 export type WindowData = {
   widgets: WidgetId[];
   activeWidget: WidgetId;
-}
+};
+export type WindowMap = Record<WindowId, WindowData>;
 
-/* Stores current state of react-mosaic-component */
-export type MosaicState = MosaicNode<WindowId>;
-
-/* Store information for studio */
-export interface StudioState {
+// Stores data required to render studio windows + widget content
+export type StudioState = {
   windows: WindowMap;
-  mosaic: MosaicState;
-}
+  mosaic: WindowMosaicNode;
+};
+
+// Are we dropping to the left or the right of a widget tab
+export type TabInsertTarget = 'left' | 'right';
+// Are we dropping on the top, bottom, left, or right side of a mosaic window
+export type MosaicDropTarget = 'top' | 'bottom' | 'left' | 'right';
