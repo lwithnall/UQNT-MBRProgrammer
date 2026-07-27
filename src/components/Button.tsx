@@ -29,7 +29,6 @@ export function Button({
   variant = 'default',
   size = 'small',
   greyed = false,
-  selected = false,
   className = '',
   children,
   ...props
@@ -37,7 +36,6 @@ export function Button({
   const styling = cn(
     'h-8 px-3 py-1.5 relative inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium rounded-md cursor-pointer overflow-hidden disabled:pointer-events-none disabled:opacity-50',
     greyed ? 'transition-opacity opacity-50 hover:opacity-100' : null,
-    selected ? 'bg-selected' : null,
     btnVariantStyling[variant],
     btnSizeStyling[size],
     className

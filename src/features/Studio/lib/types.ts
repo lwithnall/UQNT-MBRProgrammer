@@ -35,8 +35,3 @@ export type StudioState = {
   windows: WindowMap;
   mosaic: WindowMosaicNode;
 };
-
-// Are we dropping to the left or the right of a widget tab
-export type TabInsertTarget = 'left' | 'right';
-// Are we dropping on the top, bottom, left, or right side of a mosaic window
-export type MosaicDropTarget = 'top' | 'bottom' | 'left' | 'right';

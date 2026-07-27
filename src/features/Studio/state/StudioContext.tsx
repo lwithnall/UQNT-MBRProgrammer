@@ -1,11 +1,12 @@
 import { useState, createContext, useContext } from 'react';
 import { defaultStudio, widgets } from '../lib/constants';
-import type { StudioState, WindowId, WindowMosaicNode } from '../lib/types';
+import type { StudioState, WidgetId, WindowId, WindowMosaicNode } from '../lib/types';
 
 interface StudioContextType {
-  studio: StudioState; // Window and widget tab layout for studio
+  studio: StudioState;
   setMosaic: (newMosaic: WindowMosaicNode) => void;
   getWindowContent: (windowId: WindowId) => React.ComponentType;
+  setActiveWidget: (windowId: WindowId, widgetId: WidgetId) => void;
 }
 
 const StudioContext = createContext<StudioContextType | undefined>(undefined);
@@ -29,8 +30,21 @@ export function StudioProvider({ children }: React.PropsWithChildren) {
     return widgets[studio.windows[windowId].activeWidget].content;
   };
 
+  const setActiveWidget = (windowId: WindowId, widgetId: WidgetId) => {
+    setStudio({
+      ...studio,
+      windows: {
+        ...studio.windows,
+        [windowId]: {
+          ...studio.windows[windowId],
+          activeWidget: widgetId,
+        },
+      },
+    });
+  };
+
   return (
-    <StudioContext.Provider value={{ studio, setMosaic, getWindowContent }}>
+    <StudioContext.Provider value={{ studio, setMosaic, getWindowContent, setActiveWidget }}>
       {children}
     </StudioContext.Provider>
   );

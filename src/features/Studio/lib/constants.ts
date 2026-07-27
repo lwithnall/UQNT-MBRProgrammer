@@ -2,6 +2,7 @@ import type { WidgetMap, WindowMap, StudioState, WindowMosaicNode } from './type
 import { BlockEditor, CodeEditor } from '../../BlockMirror/components';
 import { HelpWidget, InfoWidget } from '../../Pager';
 import { FaCode, FaPuzzlePiece, FaExclamation, FaHandsHelping } from 'react-icons/fa';
+import { CollisionPriority } from '@dnd-kit/abstract';
 
 /* Mapping between widgets and info required to render them */
 export const widgets: WidgetMap = {
@@ -48,3 +49,6 @@ export const defaultStudio: StudioState = {
   windows: defaultWindows,
   mosaic: defaultMosaicState,
 };
+
+export const windowCollisionPrio = CollisionPriority.Low;
+export const tabCollisionPrio = CollisionPriority.High;

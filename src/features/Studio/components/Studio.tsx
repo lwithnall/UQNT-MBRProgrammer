@@ -1,6 +1,6 @@
 import { Mosaic } from 'react-mosaic-component';
 import { StudioWindow, WidgetTabGroup, StudioDndManager } from './index';
-import { StudioProvider, useStudio } from '../state';
+import { useStudio } from '../state';
 import type { WindowId, WindowMosaicNode } from '../lib/types';
 
 import 'react-mosaic-component/react-mosaic-component.css';
@@ -16,26 +16,24 @@ export function Studio() {
   };
 
   return (
-    <StudioProvider>
-      <StudioDndManager>
-        <Mosaic<WindowId>
-          renderTile={(windowId, path) => {
-            // Content to load into active window content area
-            const WindowContent = getWindowContent(windowId);
-            return (
-              <StudioWindow
-                id={windowId}
-                path={path}
-                toolbarControls={<WidgetTabGroup windowId={windowId} />}
-              >
-                <WindowContent />
-              </StudioWindow>
-            );
-          }}
-          value={studio.mosaic}
-          onChange={onChange}
-        />
-      </StudioDndManager>
-    </StudioProvider>
+    <StudioDndManager>
+      <Mosaic<WindowId>
+        renderTile={(windowId, path) => {
+          // Content to load into active window content area
+          const WindowContent = getWindowContent(windowId);
+          return (
+            <StudioWindow
+              id={windowId}
+              path={path}
+              toolbarControls={<WidgetTabGroup windowId={windowId} path={path} />}
+            >
+              <WindowContent />
+            </StudioWindow>
+          );
+        }}
+        value={studio.mosaic}
+        onChange={onChange}
+      />
+    </StudioDndManager>
   );
 }

@@ -1,30 +1,24 @@
+// import { OverlayIndicator } from './index';
 import { Button } from '../../../components/Button';
+import { OverlayIndicator } from './OverlayIndicator';
+import type { WidgetId } from '../lib/types';
+import { widgets } from '../lib/constants';
 import { DragDropProvider, DragOverlay } from '@dnd-kit/react';
 import { PointerSensor, PointerActivationConstraints } from '@dnd-kit/dom';
-import { type Sensors, type DragStartEvent } from '@dnd-kit/abstract';
+import { type DragStartEvent } from '@dnd-kit/abstract';
 import { useState } from 'react';
-import { type WidgetId, type DropInsertTarget, widgets } from '../lib';
-import { OverlayIndicator } from './OverlayIndicator';
 
 export function StudioDndManager({ children }: React.PropsWithChildren) {
   // Id of widget being dragged, used to render overlay
   const [draggingId, setDraggingId] = useState<WidgetId | null>(null);
-  const [dropTarget, setDropTarget] = useState<DropInsertTarget | null>(null);
 
   /* Configure sensor properties for DragDropProvider */
-  const sensors = (defaults: Sensors) => {
-    return [
-      ...defaults.filter((sensor) => sensor !== PointerSensor),
-      PointerSensor.configure({
-        activationConstraints: [
-          // Drag starts after the pointer moves 8px
-          new PointerActivationConstraints.Distance({ value: 10 }),
-        ],
-      }),
-    ];
-  };
-
-  const onCollision = () => {};
+  const sensors = [
+    PointerSensor.configure({
+      // Drag starts after the pointer moves 8px
+      activationConstraints: [new PointerActivationConstraints.Distance({ value: 10 })],
+    }),
+  ];
 
   const onDragStart = (event: DragStartEvent) => {
     if (event.operation.source === null) return;
@@ -36,19 +30,14 @@ export function StudioDndManager({ children }: React.PropsWithChildren) {
   };
 
   return (
-    <DragDropProvider
-      sensors={sensors}
-      onCollision={onCollision}
-      onDragStart={onDragStart}
-      onDragEnd={onDragEnd}
-    >
+    <DragDropProvider sensors={sensors} onDragStart={onDragStart} onDragEnd={onDragEnd}>
       {children}
       {draggingId && (
         <DragOverlay>
           <Button icon={widgets[draggingId].icon}>{widgets[draggingId].displayName}</Button>
         </DragOverlay>
       )}
-      {dropTarget && <OverlayIndicator dropTarget={dropTarget} />}
+      {draggingId && <OverlayIndicator />}
     </DragDropProvider>
   );
 }

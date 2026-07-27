@@ -1,3 +1,4 @@
+import { StudioProvider } from '../features/Studio/state';
 import { Studio } from '../features/Studio/components/Studio';
 import { CodeProvider } from '../features/BlockMirror/components';
 import { Header } from '../components/Header';
@@ -15,9 +16,11 @@ function App() {
           </Toolbar.Button>
         </Toolbar.Root> */}
         <Header />
-        <CodeProvider>
-          <Studio />
-        </CodeProvider>
+        <StudioProvider>
+          <CodeProvider>
+            <Studio />
+          </CodeProvider>
+        </StudioProvider>
       </div>
     </>
   );
