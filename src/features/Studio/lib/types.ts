@@ -1,11 +1,12 @@
 import { type IconType } from 'react-icons';
-import { type UniqueIdentifier } from '@dnd-kit/abstract';
 import type { MosaicNode } from 'react-mosaic-component';
+import { type UniqueIdentifier } from '@dnd-kit/abstract';
 
 // Basic unique identifier stuff
 export type WidgetId = UniqueIdentifier;
 export type WindowId = UniqueIdentifier;
 export type WindowMosaicNode = MosaicNode<WindowId>;
+export type DropSide = 'top' | 'bottom' | 'left' | 'right';
 
 /*
  * Data required to render a widget into a window
