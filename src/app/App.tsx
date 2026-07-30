@@ -7,7 +7,8 @@ function App() {
   return (
     <>
       <div className="h-screen flex flex-col p-1.5 gap-1">
-        {/* <Toolbar.Root className="flex justify-start padding-10 bg-white rounded-md shadow-md">
+        <StudioProvider>
+          {/* <Toolbar.Root className="flex justify-start padding-10 bg-white rounded-md shadow-md">
           <Toolbar.Button onClick={() => checkBLE()} className="hover:bg-red-500">
             Check
           </Toolbar.Button>
@@ -15,8 +16,7 @@ function App() {
             Connect
           </Toolbar.Button>
         </Toolbar.Root> */}
-        <Header />
-        <StudioProvider>
+          <Header />
           <CodeProvider>
             <Studio />
           </CodeProvider>

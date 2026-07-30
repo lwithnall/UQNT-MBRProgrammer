@@ -169,7 +169,7 @@ function addMosaicNode(
   // Going in different direct, must make new mosaic node
   let first: MosaicNode<WindowId>;
   let second: MosaicNode<WindowId>;
-  if (dropSide === 'left' || dropSide === 'top') {
+  if (dropSide === 'right' || dropSide === 'top') {
     first = destination;
     second = newNode;
   } else {
@@ -316,9 +316,9 @@ function spawnWindowFromWidget(
   let newStudio: StudioState;
   const newWindowId = generateWindowId();
 
-  newStudio = removeWidget(studio, widgetId, sourceId, sourcePath);
-  newStudio = addWindow(newStudio, newWindowId, widgetId);
+  newStudio = addWindow(studio, newWindowId, widgetId);
   newStudio = addMosaicNode(newStudio, newWindowId, targPath, dropSide);
+  newStudio = removeWidget(newStudio, widgetId, sourceId, sourcePath);
   return newStudio;
 }
 

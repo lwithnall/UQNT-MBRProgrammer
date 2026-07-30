@@ -20,7 +20,7 @@ export function CodeEditor() {
 
   return (
     <Editor
-      height="100vh"
+      height="100%"
       defaultLanguage="python"
       theme="vs-dark"
       value={code ?? ''}

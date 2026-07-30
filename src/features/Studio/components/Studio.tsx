@@ -2,12 +2,13 @@ import { Mosaic } from 'react-mosaic-component';
 import { StudioWindow, WidgetTabGroup, StudioDndManager } from './index';
 import { useStudio } from '../state';
 import type { WindowId, WindowMosaicNode } from '../lib/types';
+import { WidgetHosts, WidgetSlot } from './WidgetHost';
 
 import 'react-mosaic-component/react-mosaic-component.css';
 import '../styling/mosaic.css';
 
 export function Studio() {
-  const { studio, setMosaic, getWindowContent } = useStudio();
+  const { studio, setMosaic } = useStudio();
 
   // Called by Mosaic component to handle mosaic structure changes
   const onChange = (newMosaic: WindowMosaicNode | null) => {
@@ -17,17 +18,18 @@ export function Studio() {
 
   return (
     <StudioDndManager>
+      {/* Render singleton values for widget containers */}
+      <WidgetHosts />
       <Mosaic<WindowId>
         renderTile={(windowId, path) => {
-          // Content to load into active window content area
-          const WindowContent = getWindowContent(windowId);
+          const activeWidget = studio.windows[windowId].activeWidget;
           return (
             <StudioWindow
               id={windowId}
               path={path}
               toolbarControls={<WidgetTabGroup windowId={windowId} path={path} />}
             >
-              <WindowContent />
+              <WidgetSlot widgetId={activeWidget} />
             </StudioWindow>
           );
         }}

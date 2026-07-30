@@ -1,11 +1,17 @@
 import { useState, createContext, useContext } from 'react';
 import { defaultStudio } from '../lib/constants';
 import type { StudioState, WidgetId, WindowId, WindowMosaicNode, DropSide } from '../lib/types';
-import { type MosaicNode, type MosaicPath } from 'react-mosaic-component';
+import {
+  createBalancedTreeFromLeaves,
+  getLeaves,
+  type MosaicNode,
+  type MosaicPath,
+} from 'react-mosaic-component';
 import * as utils from '../lib/studioUtils';
 
 interface StudioContextType {
   studio: StudioState;
+  autoArrangeMosaic: () => void;
   windowFromId: (id: WindowId | WidgetId) => WindowId | WidgetId | null;
   getWidgetIndex: (windowId: WindowId, widgetId: WidgetId) => number;
   setMosaic: (newMosaic: WindowMosaicNode) => void;
@@ -33,6 +39,15 @@ const StudioContext = createContext<StudioContextType | undefined>(undefined);
 
 export function StudioProvider({ children }: React.PropsWithChildren) {
   const [studio, setStudio] = useState<StudioState>(defaultStudio);
+
+  const autoArrangeMosaic = () => {
+    const leaves = getLeaves(studio.mosaic);
+    const newMosaic = createBalancedTreeFromLeaves(leaves);
+    if (newMosaic === null) return;
+    setStudio((studio) => {
+      return { ...studio, mosaic: newMosaic };
+    });
+  };
 
   const widgetCount = (windowId: WindowId) => {
     return utils.widgetCount(studio, windowId);
@@ -97,6 +112,7 @@ export function StudioProvider({ children }: React.PropsWithChildren) {
     <StudioContext.Provider
       value={{
         studio,
+        autoArrangeMosaic,
         setMosaic,
         windowFromId,
         getWidgetIndex,
