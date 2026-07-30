@@ -7,10 +7,19 @@ import * as utils from '../lib/studioUtils';
 interface StudioContextType {
   studio: StudioState;
   windowFromId: (id: WindowId | WidgetId) => WindowId | WidgetId | null;
+  getWidgetIndex: (windowId: WindowId, widgetId: WidgetId) => number;
   setMosaic: (newMosaic: WindowMosaicNode) => void;
   getWindowContent: (windowId: WindowId) => React.ComponentType;
   widgetCount: (windowId: WindowId) => number;
   setActiveWidget: (windowId: WindowId, widgetId: WidgetId) => void;
+  changeWidgetIndex: (windowId: WindowId, oldIndex: number, newIndex: number) => void;
+  transferWidget: (
+    widgetId: WidgetId,
+    sourceWindowId: WindowId,
+    targetWindowId: WindowId,
+    sourceWindowPath: MosaicPath,
+    index?: number
+  ) => void;
   spawnWindowFromWidget: (
     widgetId: WidgetId,
     sourceId: WindowId,
@@ -33,6 +42,10 @@ export function StudioProvider({ children }: React.PropsWithChildren) {
     return utils.windowFromId(studio, id);
   };
 
+  const getWidgetIndex = (windowId: WindowId, widgetId: WidgetId) => {
+    return utils.getWidgetIndex(studio, windowId, widgetId);
+  };
+
   const setMosaic = (mosaic: MosaicNode<WindowId>) => {
     setStudio((studio) => utils.setMosaic(studio, mosaic));
   };
@@ -43,6 +56,29 @@ export function StudioProvider({ children }: React.PropsWithChildren) {
 
   const getWindowContent = (windowId: WindowId) => {
     return utils.getWindowContent(studio, windowId);
+  };
+
+  const changeWidgetIndex = (windowId: WindowId, oldIndex: number, newIndex: number) => {
+    setStudio((studio) => utils.changeWidgetIndex(studio, windowId, oldIndex, newIndex));
+  };
+
+  const transferWidget = (
+    widgetId: WidgetId,
+    sourceWindowId: WindowId,
+    targetWindowId: WindowId,
+    sourceWindowPath: MosaicPath,
+    index?: number
+  ) => {
+    setStudio((studio) =>
+      utils.transferWidget(
+        studio,
+        widgetId,
+        sourceWindowId,
+        targetWindowId,
+        sourceWindowPath,
+        index
+      )
+    );
   };
 
   const spawnWindowFromWidget = (
@@ -63,9 +99,12 @@ export function StudioProvider({ children }: React.PropsWithChildren) {
         studio,
         setMosaic,
         windowFromId,
+        getWidgetIndex,
         getWindowContent,
         widgetCount,
         setActiveWidget,
+        changeWidgetIndex,
+        transferWidget,
         spawnWindowFromWidget,
       }}
     >

@@ -18,6 +18,7 @@ import {
 } from 'react-mosaic-component';
 import type { DropSide, StudioState, WidgetId, WindowId } from './types';
 import { widgets } from './constants';
+import { arrayMove } from '@dnd-kit/helpers';
 
 /* Check if window exists on studio instance */
 function isWindow(studio: StudioState, windowId: WindowId) {
@@ -54,6 +55,11 @@ function widgetCount(studio: StudioState, windowId: WindowId) {
   return studio.windows[windowId].widgets.length;
 }
 
+/* Get the index of a widget in windows widget list */
+function getWidgetIndex(studio: StudioState, windowId: WindowId, widgetId: WidgetId) {
+  return studio.windows[windowId].widgets.findIndex((i) => i === widgetId);
+}
+
 /* Set a given widgets active widget to supplied value */
 function setActiveWidget(studio: StudioState, windowId: WindowId, widgetId: WidgetId) {
   return {
@@ -75,11 +81,39 @@ function getWindowContent(studio: StudioState, windowId: WindowId) {
   return widgets[window.activeWidget].content;
 }
 
-/*
+/**
+ * Move given widget already stored by window to a different index
+ * in that window's list of widgets
+ * @param studio the studio instance
+ * @param windowId the window the widgets is tored in
+ * @param oldIndex current widget index
+ * @param newIndex the index to move too
+ * @returns
+ */
+function changeWidgetIndex(
+  studio: StudioState,
+  windowId: WindowId,
+  oldIndex: number,
+  newIndex: number
+) {
+  return {
+    ...studio,
+    windows: {
+      ...studio.windows,
+      [windowId]: {
+        ...studio.windows[windowId],
+        widgets: arrayMove(studio.windows[windowId].widgets, oldIndex, newIndex),
+      },
+    },
+  };
+}
+
+/**
  * Add a given window to studio state, must supply a default widget
- * @param studio - the studio instance
- * @param newWindowId - the id of the window to add
- * @param initWidget - the widget the window must start with
+ * @param studio the studio instance
+ * @param newWindowId the id of the window to add
+ * @param initWidget the widget the window must start with
+ * @returns
  */
 function addWindow(studio: StudioState, newWindowId: WindowId, initWidget: WidgetId) {
   return {
@@ -91,10 +125,11 @@ function addWindow(studio: StudioState, newWindowId: WindowId, initWidget: Widge
   };
 }
 
-/*
+/**
  * Delete given window from studio state
- * @param studio - the studio instance
- * @param windowId - the window being deleted
+ * @param studio the studio instance
+ * @param windowId the window being deleted
+ * @returns
  */
 function deleteWindow(studio: StudioState, windowId: WindowId): StudioState {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -160,10 +195,11 @@ function addMosaicNode(
   };
 }
 
-/*
+/**
  * Delete the mosaic node at the supplied path
  * @param studio the studio instance to modify
- * @param windowPath the path to the node to delete
+ * @param path the path to the node to delete
+ * @returns
  */
 function deleteMosaicNode(studio: StudioState, path: MosaicPath) {
   return {
@@ -172,14 +208,15 @@ function deleteMosaicNode(studio: StudioState, path: MosaicPath) {
   };
 }
 
-/*
+/**
  * Remove given widget from mosaic window
- * If this is the windows last widget, delete the window and its respective mosaic node
+ * If this is the windwos last widget, delete the window and its respective mosaic node
  * Otherwise, remove widget and update active widget as required
- * @param studio - the studio instance to modify
- * @param widgetId - the widget being removed
- * @param windowId - the window the widget is being removed from
- * @param windowPath - mosaic path leading to the given window
+ * @param studio the studio instance to modify
+ * @param widgetId the widget being removed
+ * @param windowId the window the widget is being removed from
+ * @param windowPath mosaic path leading to the given window
+ * @returns
  */
 function removeWidget(
   studio: StudioState,
@@ -214,14 +251,59 @@ function removeWidget(
   };
 }
 
-/*
+/**
+ * Move widget from oldWindow to newWindow.
+ * Old window is deleted if moving its last widget out.
+ * If index is provided, the widget will be placed in the provided,
+ * index. Otherwise it will be placed in the last position.
+ * @param studio the studio instance
+ * @param widgetId the id of the widget being transferred between windows
+ * @param sourceWindowId the window being moved out of
+ * @param targWindowId the window being moved into
+ * @param sourceWindowPath mosaic path to window being transferred from
+ * @param index index to be placed into (optional)
+ */
+function transferWidget(
+  studio: StudioState,
+  widgetId: WidgetId,
+  sourceWindowId: WindowId,
+  targetWindowId: WindowId,
+  sourceWindowPath: MosaicPath,
+  index?: number
+) {
+  if (sourceWindowId == targetWindowId) {
+    throw new Error('transferWidget requires different windows');
+  }
+
+  // Remove widget from old window
+  const newStudio = removeWidget(studio, widgetId, sourceWindowId, sourceWindowPath);
+
+  // Add widget into new window at given index
+  const targWidgets = newStudio.windows[targetWindowId].widgets;
+  if (index === undefined) index = targWidgets.length;
+  const newWindowWidgets = [...targWidgets.slice(0, index), widgetId, ...targWidgets.slice(index)];
+
+  return {
+    ...newStudio,
+    windows: {
+      ...newStudio.windows,
+      [targetWindowId]: {
+        ...newStudio.windows[targetWindowId],
+        widgets: newWindowWidgets,
+      },
+    },
+  };
+}
+
+/**
  * Remove widget from source window, create new window depending on where it is dropped
- * @param studio - the studio instance to modify
- * @param widgetId - the id of the widget being moved
- * @param sourceId - the id of the window the widget came from
- * @param sourcePath - the mosaic path to the window the widget came from
- * @param targPath - the path to the window the widget is dropped on
- * @param dropSide - the side of the window the widget was dropped on
+ * @param studio the studio instance to modify
+ * @param widgetId the id of the widget being moved
+ * @param sourceId the id of the window the widget came from
+ * @param sourcePath the mosaic path to the window the widget came from
+ * @param targPath the path to the window the widget is dropped on
+ * @param dropSide the side of the window the widget was dropped on
+ * @returns
  */
 function spawnWindowFromWidget(
   studio: StudioState,
@@ -243,7 +325,10 @@ function spawnWindowFromWidget(
 export {
   widgetCount,
   windowFromId,
+  getWidgetIndex,
+  transferWidget,
   setActiveWidget,
+  changeWidgetIndex,
   getWindowContent,
   setMosaic,
   spawnWindowFromWidget,
