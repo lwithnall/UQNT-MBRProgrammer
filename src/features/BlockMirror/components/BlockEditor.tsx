@@ -2,6 +2,7 @@ import * as Blockly from 'blockly/core';
 import * as python from 'blockly/python';
 import { useCode } from './CodeContext';
 import { useRef, useCallback, useEffect, useMemo } from 'react';
+// @ts-expect-error - importing from js thing, i dont wanna type it
 import { BlockMirrorTextToBlocks } from '../lib/text_to_blocks';
 import { DEFAULT_BLOCKLY_OPTIONS, SUPPORTED_BLOCKLY_EVENTS } from '../lib/constants';
 

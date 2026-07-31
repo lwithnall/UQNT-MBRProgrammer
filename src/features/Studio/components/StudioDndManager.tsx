@@ -56,6 +56,7 @@ export function StudioDndManager({ children }: React.PropsWithChildren) {
   };
 
   /* Manages state and overlay for hovering widgets over windows */
+  // @ts-expect-error - not using event var
   const onDragMove = (event: DragMoveEvent, manager: DragDropManager) => {
     const source = manager.dragOperation;
     const target = manager.dragOperation.target;
@@ -108,6 +109,7 @@ export function StudioDndManager({ children }: React.PropsWithChildren) {
   };
 
   // IGNORING MOVING LAST WIDGET INTO DIFFERENT SECTOR -> SHOULD DELETE WINDOW
+  // @ts-expect-error - not using event var
   const onDragEnd = (event: DragEndEvent, manager: DragDropManager) => {
     const drop = dropSide.current;
     setOverlayRect(null);

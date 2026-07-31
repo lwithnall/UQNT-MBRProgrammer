@@ -1,20 +1,22 @@
 import type { WidgetMap, WindowMap, StudioState, WindowMosaicNode } from './types';
 import { BlockEditor, CodeEditor } from '../../BlockMirror/components';
-import { HelpWidget, InfoWidget } from '../../Pager';
+// import { HelpWidget, InfoWidget } from '../../Pager';
+// import { Console } from '../../Console/Console';
 import { FaCode, FaPuzzlePiece, FaExclamation, FaHandsHelping } from 'react-icons/fa';
 import { CollisionPriority } from '@dnd-kit/abstract';
+import { Pager } from '../../Pager/Pager';
 
 /* Mapping between widgets and info required to render them */
 export const widgets: WidgetMap = {
   info: {
     displayName: 'Info',
     icon: FaExclamation,
-    content: InfoWidget,
+    content: Pager,
   },
   help: {
     displayName: 'Help',
     icon: FaHandsHelping,
-    content: HelpWidget,
+    content: Pager,
   },
   blockly: {
     displayName: 'Blockly',
@@ -26,6 +28,11 @@ export const widgets: WidgetMap = {
     icon: FaCode,
     content: CodeEditor,
   },
+  // console: {
+  //   displayName: 'Console',
+  //   icon: FaTerminal,
+  //   content: Console,
+  // },
 };
 
 /*
